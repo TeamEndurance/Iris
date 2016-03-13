@@ -1,6 +1,12 @@
 from bottle import route, error, post, get, run, static_file, abort, redirect, response, request, template
 from models import user
 import json,urlparse
+
+@route('/')
+def home():
+    return template('static/index.html',name=request.environ.get('REMOTE_ADDR'))
+
+
 @get('/user')
 def user_info():
 	"""Method to get user info"""
@@ -47,4 +53,25 @@ def user_login():
 	except Exception as e:
 		print e
 		abort(400, str(e))
+
+
+# Static Routes
+@get('/static/<filename:re:.*\.js>')
+def javascripts(filename):
+    return static_file(filename, root='static/js')
+
+@get('/static/<filename:re:.*\.css>')
+def stylesheets(filename):
+	print filename
+	return static_file(filename, root='static/css')
+
+@get('/static/<filename:re:.*\.(jpg|png|gif|ico)>')
+def images(filename):
+    return static_file(filename, root='static/img')
+
+@get('/static/<filename:re:.*\.(eot|ttf|woff|svg)>')
+def fonts(filename):
+    return static_file(filename, root='static/fonts')
+
+
 run(host='localhost', port=8080, debug=True)
