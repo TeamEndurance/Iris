@@ -9,6 +9,7 @@
 
     <!-- Bootstrap -->
     <link href="/static/bootstrap.css" rel="stylesheet">
+     <link href="/static/jquery.toast.min.css" rel="stylesheet">
 
       <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -101,28 +102,28 @@
       <div class="modal-body">
         <div class="input-group">
   <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></span>
-  <input type="text" class="form-control" placeholder="name" aria-describedby="basic-addon1">
+  <input type="text" id="user-name" class="form-control" placeholder="name" aria-describedby="basic-addon1">
 </div><br>
 
 <div class="input-group">
     <span class="input-group-addon" id="basic-addon2"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></span>
-  <input type="email" class="form-control" placeholder="Email" aria-describedby="basic-addon2">
+  <input type="email" id="user-email" class="form-control" placeholder="Email" aria-describedby="basic-addon2">
   
 </div><br>
           <div class="input-group">
     <span class="input-group-addon" id="basic-addon3"><span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span></span>
-  <input type="password" class="form-control" placeholder="Password" aria-describedby="basic-addon3">
+  <input type="password" id="user-password1" class="form-control" placeholder="Password" aria-describedby="basic-addon3">
   
 </div><br>
           <div class="input-group">
     <span class="input-group-addon" id="basic-addon4"><span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span></span>
-  <input type="password" class="form-control" placeholder="Confirm Password" aria-describedby="basic-addon4">
+  <input type="password" id="user-password2" class="form-control" placeholder="Confirm Password" aria-describedby="basic-addon4">
   
 </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Register</button>
+        <button type="button" id="user-submit" class="btn btn-primary">Register</button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
@@ -172,5 +173,7 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="/static/bootstrap.js"></script>
      <script src="/static/login.js"></script>
+
+     <script src="/static/jquery.toast.min.js"></script>
   </body>
 </html>
