@@ -228,6 +228,30 @@ $(document).on("click","#org-submit",function(){
 			$("#org-mob").val("");
 			return;
 		}
+		$.ajax({
+		  type: "POST",
+		  url: "/user",
+		  data: {"name":name,"username":username,"password":p2,"email":email,"user_type":"org","mob_num":mob},
+		  success: function(){
+		  		//if we get 200 Response
+		  		$.toast({
+				    heading: 'Success',
+				    text: 'Organization registeration successfull',
+				    showHideTransition: 'fade',
+				    icon: 'success'
+				});
+
+		  },
+		  error: function(){
+		  		//if we get 404 response
+		  		$.toast({
+				    heading: 'Error',
+				    text: 'Organization registeration failed',
+				    showHideTransition: 'fade',
+				    icon: 'error'
+				});
+		  }
+		});
 		return false;//stop form submission
 	});
 
