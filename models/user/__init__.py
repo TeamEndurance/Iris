@@ -5,6 +5,11 @@
 	user
 """
 import config,pymongo
+
+#enforce unique index on users index
+db=config.getMongo()
+db["users"].create_index([('email', pymongo.ASCENDING)],unique=True)
+
 class User(object):
 	db=config.getMongo()
 	def __init__(self,username,session_id):
