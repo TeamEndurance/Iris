@@ -81,5 +81,54 @@ $("#password").attr('autocomplete','off').val("");
 		return false;//stop form submission
 	});
 
+$(document).on("click","#org-submit",function(){
+		//for regular org registeration
+		var p1=$("#org-password1").val();
+		var p2=$("#org-password2").val();
+		if((p1!==p2) || (p1==="" && p2==="")){
+			$.toast({
+				    heading: 'Error',
+				    text: 'passwords do not match',
+				    showHideTransition: 'fade',
+				    icon: 'error'
+				});
+			$("#org-password1").val("");
+			$("#org-password2").val("");
+			return;
+		}
+		var name=$("#org-name").val();
+		var email=$("#org-email").val();
+		if(name===""){
+			$.toast({
+				    heading: 'Error',
+				    text: 'Name cannot be left empty',
+				    showHideTransition: 'fade',
+				    icon: 'error'
+				});
+			$("#org-name").val("");
+			return;
+		}
+		if(email===""){
+			$.toast({
+				    heading: 'Error',
+				    text: 'Email cannot be left empty',
+				    showHideTransition: 'fade',
+				    icon: 'error'
+				});
+			$("#org-email").val("");
+			return;
+		}
+		if(email.indexOf("@")<0){
+			$.toast({
+				    heading: 'Error',
+				    text: 'Email type invalid',
+				    showHideTransition: 'fade',
+				    icon: 'error'
+				});
+			$("#org-email").val("");
+			return;
+		}
+		return false;//stop form submission
+	});
 
 });
