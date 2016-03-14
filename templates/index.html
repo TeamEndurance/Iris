@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Iris</title>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+
+      <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+      <style>
+      html,body,h6
+      {
+        font-family: sans-serif;
+      }</style>
+  </head>
+  <body style="background-color:#f5f5f5">
+
+    <nav class="navbar navbar-default">
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Iris</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li><a href="#">About</a></li>
+      </ul>
+<!--      <form class="navbar-form navbar-left" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Enter Location">
+        </div>
+        <button type="submit" class="btn btn-default">Search</button>
+      </form> -->
+        <form class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="email" class="form-control" placeholder="Email">
+          <input type="password" class="form-control" placeholder="Password">
+            <button type="submit" class="btn btn-default">Login</button>
+            <button data-toggle="modal" data-target="#signup" type="button" class="btn btn-default">Sign up</button>
+         </div>
+      </form>
+
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+     <div class="container" id="maps_iframe" style="text-align:center;">
+<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14934181.131426198!2d70.93837272079263!3d23.95901449565519!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cfd5b347eb62d%3A0x52c2b7494e204dce!2sNew+Delhi%2C+Delhi+110001!5e0!3m2!1sen!2sin!4v1457788436913" width="100%" height="600" frameborder="0" style="border:0" allowfullscreen></iframe>
+      </div>
+
+    <div class="modal fade" id="signup" tabindex="-1" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Select Account Type </h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+            <div data-toggle="modal" data-target="#new_user_signup" data-dismiss="modal" class="col-xs-4 col-xs-offset-4 col-sm-4 col-sm-offset-1 well" onMouseOver="this.style.cursor='pointer'" style="text-align:center">
+                <h3 class="glyphicon glyphicon-user" aria-hidden="true"></h3>
+                <p>Single User</p>
+            </div>
+            <div data-toggle="modal" data-target="#new_organization_signup" data-dismiss="modal" class="col-xs-4 col-xs-offset-4 col-sm-4 col-sm-offset-1 well" onMouseOver="this.style.cursor='pointer'" style="text-align:center">
+                <h3 class="glyphicon glyphicon-briefcase" aria-hidden="true"></h3>
+                <p>Organization</p>
+            </div>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+      <div class="modal fade" tabindex="-1" role="dialog" id="new_user_signup">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">New User Sign up</h4>
+      </div>
+      <div class="modal-body">
+        <div class="input-group">
+  <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></span>
+  <input type="text" class="form-control" placeholder="name" aria-describedby="basic-addon1">
+</div><br>
+
+<div class="input-group">
+    <span class="input-group-addon" id="basic-addon2"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></span>
+  <input type="email" class="form-control" placeholder="Email" aria-describedby="basic-addon2">
+  
+</div><br>
+          <div class="input-group">
+    <span class="input-group-addon" id="basic-addon3"><span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span></span>
+  <input type="password" class="form-control" placeholder="Password" aria-describedby="basic-addon3">
+  
+</div><br>
+          <div class="input-group">
+    <span class="input-group-addon" id="basic-addon4"><span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span></span>
+  <input type="password" class="form-control" placeholder="Confirm Password" aria-describedby="basic-addon4">
+  
+</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Register</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+            <div class="modal fade" tabindex="-1" role="dialog" id="new_organization_signup">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Organization Sign up</h4>
+      </div>
+      <div class="modal-body">
+                <div class="input-group">
+  <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></span>
+  <input type="text" class="form-control" placeholder="Organization Name" aria-describedby="basic-addon1">
+</div><br>
+
+<div class="input-group">
+    <span class="input-group-addon" id="basic-addon2"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></span>
+  <input type="email" class="form-control" placeholder="Email" aria-describedby="basic-addon2">
+  
+</div><br>
+          <div class="input-group">
+    <span class="input-group-addon" id="basic-addon3"><span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span></span>
+  <input type="password" class="form-control" placeholder="Password" aria-describedby="basic-addon3">
+  
+</div><br>
+          <div class="input-group">
+    <span class="input-group-addon" id="basic-addon4"><span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span></span>
+  <input type="password" class="form-control" placeholder="Confirm Password" aria-describedby="basic-addon4">
+  
+</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Register</button>
+      </div>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.js"></script>
+  </body>
+</html>
