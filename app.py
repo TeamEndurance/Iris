@@ -43,8 +43,8 @@ def user_login():
 	try:
 		det=user.User.login(entity) #tuple of username and session id
 		if det:
-			response.set_cookie("username", det[0])
-			response.set_cookie("sessionid", det[1])
+			response.set_cookie("username", det[0],max_age=60*60*24,path="/") #1 day persistent login
+			response.set_cookie("sessionid", det[1],max_age=60*60*24,path="/")
 			response.status=200
 			return {"session":det[1]}
 		else:
