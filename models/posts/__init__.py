@@ -1,14 +1,22 @@
 """
-	User module providing various interactions with users.
-	Two kinds of user
-	org 
-	user
+	Posts module
 """
 import config,pymongo
-class User(object):
+class Posts(object):
 	db=config.getMongo()
-	def __init__(self,username,session_id):
-		"""Initializes an user by verifying the user credentials"""
+	def __init__(self,details):
+		"""Creates a post obj by post id"""
+		name,username,email,password,user_type,mob_num=("","","","","","")
+		try:
+			name=details["name"][0]
+			username=details["username"][0]
+			email=details["email"][0]
+			password=details['password'][0]
+			user_type=details["user_type"][0]
+			mob_num=details["mob_num"][0]
+		except KeyError as e:
+			#raise if few parameters are recieved
+			raise Exception("Not all parameters are available")
 		if self.authUser(username,session_id):
 			import config
 			self._user=username
@@ -92,7 +100,7 @@ class User(object):
 			try:
 				sess=User._createSessionId(username)
 				User.db["session"].update_one({"_id":username},{"$push":{"sessions":sess}},True)
-				return username,sess
+				return (username,sess)
 			except Exception as e:
 				print e
 				raise Exception("Failed to generate session id")

@@ -41,12 +41,12 @@ def user_login():
 	else:
 		entity = dict(urlparse.parse_qs(data))
 	try:
-		status=user.User.login(entity)
-		print status
-		if status:
-			response.set_cookie("sessionid", status)
+		det=user.User.login(entity) #tuple of username and session id
+		if det:
+			response.set_cookie("username", det[0])
+			response.set_cookie("sessionid", det[1])
 			response.status=200
-			return {"session":status}
+			return {"session":det[1]}
 		else:
 			response.status=400
 			return {"status":False}
