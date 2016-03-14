@@ -46,6 +46,26 @@ class User(object):
 			#if user exists raise an exception
 			raise Exception("User already exists")
 	
+	@staticmethod
+	def checkUserName(details):
+		"""Crecks for availability of a username"""
+		username=""
+		try:
+			username=details["username"][0]
+		except KeyError as e:
+			#raise if few parameters are recieved
+			raise Exception("Not all parameters are available")
+		try:
+			status=User.db["users"].find_one({"_id":username})
+			if status:
+				#user exists username unavailable
+				return False
+			else:
+				#user not exists username available
+				return True
+		except Exception:
+			raise Exception("Mongo error in checkUserName")
+
 
 	def _authUser(self,details):
 		"""

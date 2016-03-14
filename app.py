@@ -54,6 +54,25 @@ def user_login():
 		print e
 		abort(400, str(e))
 
+@post('/user/check')
+def user_name_check():
+	"Login for user and write session id on cookie"
+	data = request.body.readline()
+	if not data:
+		abort(400, 'No data received')
+	else:
+		entity = dict(urlparse.parse_qs(data))
+	try:
+		avail=user.User.checkUserName(entity) #tuple of username and session id
+		if avail:
+			response.status=200
+			return {"status":True}
+		else:
+			response.status=400
+			return {"status":False}
+	except Exception as e:
+		print e
+		abort(400, str(e))
 
 # Static Routes
 @get('/static/<filename:re:.*\.js>')
