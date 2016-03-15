@@ -1,16 +1,15 @@
 from bottle import route, error, post, get, run, static_file, abort, redirect, response, request, template
 from models import user
+config=user.config
+import pymongo,os
 import json,urlparse
-
+import gridfs,random,time
+import hashlib
+db=config.getMongo()
 @route('/')
 def home():
     return template('static/index.html',name=request.environ.get('REMOTE_ADDR'))
 
-
-@get('/user')
-def user_info():
-	"""Method to get user info"""
-	return "Hello World!"
 
 @post('/user')
 def user_insert():
@@ -73,6 +72,21 @@ def user_name_check():
 	except Exception as e:
 		print e
 		abort(400, str(e))
+
+@route('/upload', method='POST')
+def do_upload():
+	fs = gridfs.GridFS(db)
+	upload = request.files.file
+	print upload
+	name, ext = os.path.splitext(upload.filename)
+	if ext not in ('.png', '.jpg', '.jpeg'):
+		abort(400, "File extension not allowed.")
+		return
+	filename=str(int(time.time()))+str(int(random.random()*1000))+ext
+	raw=upload.file.read()
+	fs.put(raw,filename=filename)
+	md5=hashlib.md5(raw).hexdigest()
+	return {"file_id":md5} #this will be sent along with the registeration form
 
 # Static Routes
 @get('/static/<filename:re:.*\.js>')

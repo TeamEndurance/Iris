@@ -1,6 +1,8 @@
 $(document).ready(function(){
 $("#username").attr('autocomplete','off').val("");
 $("#password").attr('autocomplete','off').val("");
+var USER_FILE_IMG="default.jpg";
+var ORG_FILE_IMG="default.jpg";
 	$(document).on("click","#login-btn",function(){
 		var username=$("#username").val();
 		var password=$("#password").val();
@@ -135,7 +137,7 @@ $(document).on("focusout","#user-user_name,#org-user_name",function(){
 		$.ajax({
 		  type: "POST",
 		  url: "/user",
-		  data: {"name":name,"username":username,"password":p2,"email":email,"user_type":"user","mob_num":mob},
+		  data: {"name":name,"username":username,"password":p2,"email":email,"user_type":"user","mob_num":mob,"profile_pic":USER_FILE_IMG},
 		  success: function(){
 		  		//if we get 200 Response
 		  		$.toast({
@@ -231,7 +233,7 @@ $(document).on("click","#org-submit",function(){
 		$.ajax({
 		  type: "POST",
 		  url: "/user",
-		  data: {"name":name,"username":username,"password":p2,"email":email,"user_type":"org","mob_num":mob},
+		  data: {"name":name,"username":username,"password":p2,"email":email,"user_type":"org","mob_num":mob,"profile_pic":ORG_FILE_IMG},
 		  success: function(){
 		  		//if we get 200 Response
 		  		$.toast({
@@ -255,4 +257,91 @@ $(document).on("click","#org-submit",function(){
 		return false;//stop form submission
 	});
 
+
+Dropzone.options.userImgUpload= {
+  paramName: "file", // The name that will be used to transfer the file
+  maxFilesize: 2, // MB
+  maxFiles:1,
+  uploadMultiple:false,
+  success:function(file,response){
+	USER_FILE_IMG=response["file_id"];
+  },
+  dictDefaultMessage:"Choose a profile pic",
+  accept: function(file, done) {
+  	alert(file.name)
+    if(file.name.indexOf(".png")>0 || file.name.indexOf(".jpg")>0 || file.name.indexOf(".jpeg")>0){
+    	done();
+    }else{
+		  		$.toast({
+				    heading: 'Error',
+				    text: 'Only jpg and png formats supported',
+				    showHideTransition: 'fade',
+				    icon: 'error'
+				});
+				Dropzone.forElement("#user_img_upload").removeAllFiles();
+    }
+}
+};
+Dropzone.options.orgImgUpload= {
+  paramName: "file", // The name that will be used to transfer the file
+  maxFilesize: 2, // MB
+  maxFiles:1,
+  success:function(file,response){
+	ORG_FILE_IMG=response["file_id"];
+  },
+  uploadMultiple:false,
+  dictDefaultMessage:"Choose a profile pic",
+  accept: function(file, done) {
+  	alert(file.name)
+    if(file.name.indexOf(".png")>0 || file.name.indexOf(".jpg")>0 || file.name.indexOf(".jpeg")>0){
+    	done();
+    }else{
+		  		$.toast({
+				    heading: 'Error',
+				    text: 'Only jpg and png formats supported',
+				    showHideTransition: 'fade',
+				    icon: 'error'
+				});
+				Dropzone.forElement("#org_img_upload").removeAllFiles();
+    }
+}
+};
+
+Dropzone.forElement("#org_img_upload").on("success",function(){
+						$.toast({
+						    heading: 'Success',
+						    text: 'File upload success',
+						    showHideTransition: 'fade',
+						    icon: 'success'
+						});
+
+});
+Dropzone.forElement("#org_img_upload").on("error",function(){
+				$.toast({
+				    heading: 'Error',
+				    text: 'File upload error',
+				    showHideTransition: 'fade',
+				    icon: 'error'
+				});
+
+});
+Dropzone.forElement("#user_img_upload").on("success",function(file,responsejson){
+
+						$.toast({
+						    heading: 'Success',
+						    text: 'File upload success',
+						    showHideTransition: 'fade',
+						    icon: 'success'
+						});
+
+});
+Dropzone.forElement("#user_img_upload").on("error",function(){
+				$.toast({
+				    heading: 'Error',
+				    text: 'File upload error',
+				    showHideTransition: 'fade',
+				    icon: 'error'
+				});
+
+});
 });

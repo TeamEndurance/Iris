@@ -25,7 +25,7 @@ class User(object):
 	@staticmethod
 	def createUser(details):
 		"""Create a new user"""
-		name,username,email,password,user_type,mob_num=("","","","","","")
+		name,username,email,password,user_type,mob_num,profile_pic=("","","","","","","")
 		try:
 			name=details["name"][0]
 			username=details["username"][0]
@@ -33,11 +33,12 @@ class User(object):
 			password=details['password'][0]
 			user_type=details["user_type"][0]
 			mob_num=details["mob_num"][0]
+			profile_pic=details["profile_pic"][0]
 		except KeyError as e:
 			#raise if few parameters are recieved
 			raise Exception("Not all parameters are available")
 		try:
-			status=User.db["users"].insert({"_id":username,"name":name,"email":email,"password":User._encryptPassword(password),"user_type":user_type,'mob_num':mob_num})
+			status=User.db["users"].insert({"_id":username,"name":name,"email":email,"password":User._encryptPassword(password),"user_type":user_type,'mob_num':mob_num,"profile_pic":profile_pic})
 			if status:
 				return True
 			else:

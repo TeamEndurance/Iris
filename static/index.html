@@ -8,7 +8,16 @@
     <title>Iris</title>
 
     <!-- Bootstrap -->
-    <link href="/static/bootstrap.css" rel="stylesheet">
+    <link href="/static/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/dropzone.min.css" rel="stylesheet">
+    <style>
+    .dropzone {
+    border: 2px dashed #0087F7;
+    border-radius: 5px;
+    background: white;
+    padding: 54px 54px;
+}
+    </style>
      <link href="/static/jquery.toast.min.css" rel="stylesheet">
 
       <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -110,6 +119,7 @@
         <h4 class="modal-title">New User Sign up</h4>
       </div>
       <div class="modal-body">
+      <form id="user_img_upload" action="/upload" class="dropzone"></form>
  <div class="input-group">
   <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></span>
   <input type="text" id="user-name" class="form-control" placeholder="name" aria-describedby="basic-addon1">
@@ -157,6 +167,7 @@
       </div>
                
 <div class="modal-body">
+ <form id="org_img_upload" action="/upload" class="dropzone"></form>
  <div class="input-group">
   <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></span>
   <input type="text" id="org-name" class="form-control" placeholder="Organization Name" aria-describedby="basic-addon1">
@@ -200,8 +211,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="/static/bootstrap.js"></script>
+    <script src="/static/dropzone.min.js"></script>
      <script src="/static/login.js"></script>
-
      <script src="/static/jquery.toast.min.js"></script>
   </body>
 </html>
