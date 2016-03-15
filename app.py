@@ -85,18 +85,22 @@ def user_logout():
 	if not username or not sessionid:
 		response.status=400
 		return
-	try:
-		det=user.User.logout(username,sessionid) #tuple of username and session id
-		print det
-		if det:
-			print "heree"
-			response.set_cookie("username","",max_age=60*60*24,path="/") #1 day persistent login
-			response.set_cookie("sessionid","",max_age=60*60*24,path="/")
-		else:
-			response.status=400
-	except Exception as e:
-		print e
-		abort(400, str(e))
+	if user.User.authUser({"username":username,"sessionid":sessionid}):
+		try:
+			det=user.User.logout(username,sessionid) #tuple of username and session id
+			print det
+			if det:
+				response.set_cookie("username","",max_age=60*60*24,path="/") #1 day persistent login
+				response.set_cookie("sessionid","",max_age=60*60*24,path="/")
+			else:
+				response.status=400
+		except Exception as e:
+			print e
+			abort(400, str(e))
+	else:
+		response.set_cookie("sessionid", "",max_age=60*60*24,path="/")
+		response.set_cookie("username", "",max_age=60*60*24,path="/")
+		redirect("/")
 
 @post('/user/check')
 def user_name_check():
@@ -133,6 +137,58 @@ def do_upload():
 	md5=hashlib.md5(raw).hexdigest()
 	return {"file_id":md5} #this will be sent along with the registeration form
 
+
+
+@get("/user/profile_pic/<idd:path>")
+def get_user_profile_pic(idd):
+	"Fetch user profile_pic"
+	username=request.get_cookie('username')
+	sessionid=request.get_cookie('sessionid')
+	if not username or not sessionid:
+		response.status=400
+		return
+	if user.User.authUser({"username":username,"sessionid":sessionid}):
+		try:
+			u=user.User(username,sessionid)
+			det=u.getPicture(idd)
+			if det:
+				return det
+			else:
+				response.status=400
+		except Exception as e:
+			print e
+			abort(400, str(e))
+	else:
+		response.set_cookie("sessionid", "",max_age=60*60*24,path="/")
+		response.set_cookie("username", "",max_age=60*60*24,path="/")
+		redirect("/")
+
+
+@post("/user/details")
+def get_user_details():
+	"Fetch user details"
+	username=request.get_cookie('username')
+	sessionid=request.get_cookie('sessionid')
+	if not username or not sessionid:
+		response.status=400
+		return
+	if user.User.authUser({"username":username,"sessionid":sessionid}):
+		try:
+			u=user.User(username,sessionid)
+			det=u.getDetails()
+			if det:
+				return det
+			else:
+				response.status=400
+		except Exception as e:
+			print e
+			abort(400, str(e))
+	else:
+		response.set_cookie("sessionid", "",max_age=60*60*24,path="/")
+		response.set_cookie("username", "",max_age=60*60*24,path="/")
+		redirect("/")
+
+
 # Static Routes
 @get('/static/<filename:re:.*\.js>')
 def javascripts(filename):
@@ -140,7 +196,6 @@ def javascripts(filename):
 
 @get('/static/<filename:re:.*\.css>')
 def stylesheets(filename):
-	print filename
 	return static_file(filename, root='static/css')
 
 @get('/static/<filename:re:.*\.(jpg|png|gif|ico)>')
@@ -149,12 +204,10 @@ def images(filename):
 
 @get('/static/<filename:re:.*\.(eot|ttf|woff|svg)>')
 def fonts(filename):
-	print "font"
 	return static_file(filename, root='static/fonts')
 
 @get('/fonts/<filename:re:.*\.(eot|ttf|woff|svg)>')
 def fonts(filename):
-	print "font"
 	return static_file(filename, root='static/fonts')
 
 run(host='localhost', port=8080, debug=True)

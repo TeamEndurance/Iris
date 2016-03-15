@@ -5,19 +5,20 @@
 	user
 """
 import config,pymongo
-
+import gridfs
 #enforce unique index on users index
 db=config.getMongo()
 db["users"].create_index([('email', pymongo.ASCENDING)],unique=True)
 
 class User(object):
 	db=config.getMongo()
+	fs = gridfs.GridFS(db)
 	def __init__(self,username,session_id):
 		"""Initializes an user by verifying the user credentials"""
-		if self.authUser(username,session_id):
+		if self.authUser({"username":username,"sessionid":session_id}):
 			import config
-			self._user=username
-			self._session_id=session_id
+			self._username=username
+			self._sessionid=session_id
 		else:
 			#if invalid user raise an exception
 			raise Exception
@@ -73,18 +74,22 @@ class User(object):
 			Autherizes user based on their session id and username
 			This method will be called before every transaction
 		"""
-		username,sessionid=("","")
 		try:
-			username=details["username"]
-			sessionid=details['sessionid']
-		except KeyError as e:
-			#raise if few parameters are recieved
-			raise Exception("Not all parameters are available")
-		u=User.db["session"].find_one({"_id":username})
-		if sessionid in u["sessions"]:
-			return True
-		else:
-			#If invalid credentials raise an Exception
+			username,sessionid=("","")
+			try:
+				username=details["username"]
+				sessionid=details['sessionid']
+			except KeyError as e:
+				#raise if few parameters are recieved
+				raise Exception("Not all parameters are available")
+			u=User.db["session"].find_one({"_id":username})
+			if sessionid in u["sessions"]:
+				return True
+			else:
+				#If invalid credentials raise an Exception
+				return False
+		except:
+			#raise Exception("Unable to authUser")
 			return False
 	@staticmethod
 	def _encryptPassword(password):
@@ -139,3 +144,27 @@ class User(object):
 		else:
 			#If invalid credentials raise an Exception
 			raise Exception("invalid credentials")
+
+	def getDetails(self):
+		try:
+			k=User.db["users"].find_one({"_id":self._username})
+			del k["password"] #remove hashed password version
+			if k:
+				return k
+			else:
+				raise Exception("Unable to get user details")
+		except Exception as e:
+			print e
+			raise Exception("Unable to get user details")
+
+
+	def getPicture(self,hashh):
+		try:
+			k=User.fs.find_one({"md5":hashh})
+			if k:
+				return k.read()
+			else:
+				raise Exception("Unable to get user details")
+		except Exception as e:
+			print e
+			raise Exception("Unable to get user details")	
