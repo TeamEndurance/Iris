@@ -6,6 +6,12 @@ import json,urlparse
 import gridfs,random,time
 import hashlib
 db=config.getMongo()
+
+
+@route('/index.html')
+def index():
+	redirect("/")
+
 @route('/')
 def home():
 	username=request.get_cookie('username')
@@ -143,7 +149,12 @@ def images(filename):
 
 @get('/static/<filename:re:.*\.(eot|ttf|woff|svg)>')
 def fonts(filename):
-    return static_file(filename, root='static/fonts')
+	print "font"
+	return static_file(filename, root='static/fonts')
 
+@get('/fonts/<filename:re:.*\.(eot|ttf|woff|svg)>')
+def fonts(filename):
+	print "font"
+	return static_file(filename, root='static/fonts')
 
 run(host='localhost', port=8080, debug=True)
