@@ -73,6 +73,39 @@ $(document).on("focusout","#user-user_name,#org-user_name",function(){
 		return false;//stop form submission
 
 });
+$(document).on("focusout","#user-email,#org-email",function(){
+	//check for available username
+	var email=$(this).val();
+	if(email===""){
+		return;
+	}
+	$.ajax({
+		  type: "POST",
+		  url: "/user/email/check",
+		  data: {"email":email},
+		  success: function(){
+		  		//if we get 200 Response
+		  		$.toast({
+				    heading: 'Success',
+				    text: 'Email available <b>'+email+'</b>',
+				    showHideTransition: 'fade',
+				    icon: 'success'
+				});
+
+		  },
+		  error: function(){
+		  		//if we get 404 response
+		  		$.toast({
+				    heading: 'Error',
+				    text: 'Email not available <b>'+email+'</b>',
+				    showHideTransition: 'fade',
+				    icon: 'error'
+				});
+		  }
+		});
+		return false;//stop form submission
+
+});
 	$(document).on("click","#user-submit",function(){
 		//for regular user registeration
 		var p1=$("#user-password1").val();

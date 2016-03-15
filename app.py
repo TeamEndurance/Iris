@@ -81,14 +81,12 @@ def user_logout():
 	"Logout for user"
 	username=request.get_cookie('username')
 	sessionid=request.get_cookie('sessionid')
-	print username,sessionid,"dude"
 	if not username or not sessionid:
 		response.status=400
 		return
 	if user.User.authUser({"username":username,"sessionid":sessionid}):
 		try:
 			det=user.User.logout(username,sessionid) #tuple of username and session id
-			print det
 			if det:
 				response.set_cookie("username","",max_age=60*60*24,path="/") #1 day persistent login
 				response.set_cookie("sessionid","",max_age=60*60*24,path="/")
@@ -104,7 +102,7 @@ def user_logout():
 
 @post('/user/check')
 def user_name_check():
-	"Login for user and write session id on cookie"
+	"Checks user name availability"
 	data = request.body.readline()
 	if not data:
 		abort(400, 'No data received')
@@ -112,6 +110,26 @@ def user_name_check():
 		entity = dict(urlparse.parse_qs(data))
 	try:
 		avail=user.User.checkUserName(entity) #tuple of username and session id
+		if avail:
+			response.status=200
+			return {"status":True}
+		else:
+			response.status=400
+			return {"status":False}
+	except Exception as e:
+		print e
+		abort(400, str(e))
+
+@post('/user/email/check')
+def user_email_check():
+	"Checks email availability"
+	data = request.body.readline()
+	if not data:
+		abort(400, 'No data received')
+	else:
+		entity = dict(urlparse.parse_qs(data))
+	try:
+		avail=user.User.checkUserEmail(entity) #tuple of username and session id
 		if avail:
 			response.status=200
 			return {"status":True}

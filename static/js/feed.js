@@ -10,10 +10,13 @@ $.ajax({
 		  success: function(response){
 		  	var js=response;
 		  	$("#user_name").text(js["name"]);
+		  	$("#profile_section_user_name").text(js["name"]);
 		  	$("#user_name1").text(js["name"]);
 		  	$("#user_email").text(js["email"]);
+		  	$("#profile_section_email").text(js["email"]);
 		  	$("#user_profile_icon").attr("src","/user/profile_pic/"+js["profile_pic"]);
 		  	$("#user_profile_icon_small").attr("src","/user/profile_pic/"+js["profile_pic"]);
+		  	$("#profile_section_pic").attr("src","/user/profile_pic/"+js["profile_pic"]);
 		  		//if we get 200 Response
 		  		$.toast({
 				    heading: 'Success',
@@ -58,4 +61,9 @@ $(document).on("click","#logout",function(){
 		});
 		return false;//stop form submission
 	});
+
+$("#user_show_profile").on("click",function(){
+	$("#profile_section").attr("style","").attr("style","display:block;");
+	return false;
+});
 });

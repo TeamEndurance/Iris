@@ -47,6 +47,14 @@
 #user_email,#user_name1{
   color:black;
 }
+#profile_section>*{
+  background-color: #3f51b5;
+}
+#profile_section{
+  min-width: 100%;
+  min-height: 100%;
+  background-color: #3f51b5;
+}
       html{font-family: 'Open Sans', sans-serif;color:white;font-weight: 100}
       .card{border-radius: 0px;background-color: #2196F3;padding:0px;}
       .card-content {padding-left:10px;color: white;}
@@ -108,7 +116,7 @@
                                         <p class="text-left" id="user_name1"><strong></strong></p>
                                         <p class="text-left small" id="user_email">correoElectronico@email.com</p>
                                         <p class="text-left">
-                                            <a id="user_show_profile" href="/profile" class="btn btn-primary btn-block btn-sm">Show Profile</a>
+                                            <a id="user_show_profile" href="#" class="btn btn-primary btn-block btn-sm">Show Profile</a>
                                         </p>
                                     </div>
                                 </div>
@@ -136,6 +144,17 @@
 </nav>
       
 <div class="container">
+<div class="row" id="profile_section" style="display:none;">
+            <div class="col-xs-2 col-xs-offset-1 col-sm-2 col-sm-offset-1 col-md-2 col-md-offset-1 col-lg-2 col-lg-offset-1">
+                <br>
+                <img id="profile_section_pic" src="" class="img-rectangle img-responsive">
+<br>
+            </div>
+            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                                <h3 style="color:white" id="profile_section_user_name"></h3>
+                <p id="profile_section_email"></p>
+            </div>
+          </div>
     <div class="row grid">
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 grid-items">
             <div class="card well" style="background-color:#673AB7">

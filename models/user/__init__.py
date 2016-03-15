@@ -5,7 +5,7 @@
 	user
 """
 import config,pymongo
-import gridfs
+import gridfs,time
 #enforce unique index on users index
 db=config.getMongo()
 db["users"].create_index([('email', pymongo.ASCENDING)],unique=True)
@@ -67,6 +67,26 @@ class User(object):
 				return True
 		except Exception:
 			raise Exception("Mongo error in checkUserName")
+
+	@staticmethod
+	def checkUserEmail(details):
+		"""Crecks for availability of a email"""
+		email=""
+		try:
+			email=details["email"][0]
+		except KeyError as e:
+			#raise if few parameters are recieved
+			raise Exception("Not all parameters are available")
+		try:
+			status=User.db["users"].find_one({"email":email})
+			if status:
+				#user exists username unavailable
+				return False
+			else:
+				#user not exists username available
+				return True
+		except Exception:
+			raise Exception("Mongo error in checkUserEmail")
 
 	@staticmethod
 	def authUser(details):
@@ -167,4 +187,28 @@ class User(object):
 				raise Exception("Unable to get user details")
 		except Exception as e:
 			print e
-			raise Exception("Unable to get user details")	
+			raise Exception("Unable to get user details")
+
+	def createPost(self,details):
+		"""Creates a new post"""
+		title,content,picture,anonyoumous,location,report_time=("","","","","","")
+		try:
+			title=details["title"][0]
+			content=details["content"][0]
+			picture=details["picture"][0]
+			anonyoumous=details['anonyoumous'][0]
+			location=details["location"][0]
+			report_time=int(time.time())
+			post_id=str(self._username)+str(report_time)+str(int(random.random()*1000))
+		except KeyError as e:
+			#raise if few parameters are recieved
+			raise Exception("Not all parameters are available")
+		try:
+			status=User.db["posts"].insert({"_id":post_id,"title":title,"content":content,"picture":picture,"anonyoumous":anonyoumous,'location':location,"report_time":report_time})
+			if status:
+				return True
+			else:
+				return False
+		except pymongo.errors.DuplicateKeyError:
+			#if user exists raise an exception
+			raise Exception("Post already exists")		
