@@ -1,4 +1,11 @@
 $(document).ready(function(){
+$("#loc_search").geocomplete();
+
+$("#loc_search_form").on("submit",function(){
+ 
+  return false;
+});
+
 $("#username").attr('autocomplete','off').val("");
 $("#password").attr('autocomplete','off').val("");
 var USER_FILE_IMG="default.jpg";

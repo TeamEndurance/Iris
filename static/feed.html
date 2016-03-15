@@ -44,9 +44,9 @@
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <form class="navbar-form navbar-left" role="search">
+                <form class="navbar-form navbar-left" id="loc_search_form" role="search">
         <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search Location">
+          <input type="text" class="form-control" id="loc_search" placeholder="Search Location">
             
          </div>
       </form>
@@ -251,5 +251,7 @@
       </script>
      <script src="/static/feed.js"></script>
      <script src="/static/jquery.toast.min.js"></script>
+     <script src="http://maps.googleapis.com/maps/api/js?libraries=places"></script>
+      <script src="/static/jquery.geocomplete.min.js"></script>
   </body>
 </html>

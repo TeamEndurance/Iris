@@ -1,4 +1,9 @@
 $(document).ready(function(){
+$("#loc_search").geocomplete();
+$("#loc_search_form").on("submit",function(){
+ 
+  return false;
+});
 $(document).on("click","#logout",function(){
 		$.ajax({
 		  type: "POST",
