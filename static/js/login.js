@@ -18,6 +18,7 @@ var ORG_FILE_IMG="default.jpg";
 				    showHideTransition: 'fade',
 				    icon: 'success'
 				});
+				window.location="/feed";
 
 		  },
 		  error: function(){

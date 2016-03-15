@@ -67,16 +67,16 @@ class User(object):
 		except Exception:
 			raise Exception("Mongo error in checkUserName")
 
-
-	def _authUser(self,details):
+	@staticmethod
+	def authUser(details):
 		"""
 			Autherizes user based on their session id and username
 			This method will be called before every transaction
 		"""
 		username,sessionid=("","")
 		try:
-			username=details["username"][0]
-			sessionid=details['sessionid'][0]
+			username=details["username"]
+			sessionid=details['sessionid']
 		except KeyError as e:
 			#raise if few parameters are recieved
 			raise Exception("Not all parameters are available")
@@ -122,6 +122,20 @@ class User(object):
 			except Exception as e:
 				print e
 				raise Exception("Failed to generate session id")
+		else:
+			#If invalid credentials raise an Exception
+			raise Exception("invalid credentials")
+
+	@staticmethod
+	def logout(username,sessionid):
+		"""Takes username and sessionid then logout"""
+		try:
+			sess=User._createSessionId(username)
+			User.db["session"].update_one({"_id":username},{"$pull":{"sessions":sessionid}},True)
+			return True
+		except Exception as e:
+			print e
+			raise Exception("Failed to remove session id")
 		else:
 			#If invalid credentials raise an Exception
 			raise Exception("invalid credentials")

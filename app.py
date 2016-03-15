@@ -8,9 +8,26 @@ import hashlib
 db=config.getMongo()
 @route('/')
 def home():
-    return template('static/index.html',name=request.environ.get('REMOTE_ADDR'))
-
-
+	username=request.get_cookie('username')
+	sessionid=request.get_cookie('sessionid')
+	if username and sessionid:
+		#user is already logged in redirect
+		redirect("/feed")
+	else:
+		return template('static/index.html',name=request.environ.get('REMOTE_ADDR'))
+@route('/feed')
+def feed():
+	username=request.get_cookie('username')
+	sessionid=request.get_cookie('sessionid')
+	if username and sessionid:
+		if user.User.authUser({"username":username,"sessionid":sessionid}):
+			return template('static/feed.html',name=request.environ.get('REMOTE_ADDR'))
+		else:
+			response.set_cookie("sessionid", "",max_age=60*60*24,path="/")
+			response.set_cookie("username", "",max_age=60*60*24,path="/")
+			redirect("/")
+	else:
+		redirect("/")
 @post('/user')
 def user_insert():
 	"""Method for signup"""
@@ -49,6 +66,28 @@ def user_login():
 		else:
 			response.status=400
 			return {"status":False}
+	except Exception as e:
+		print e
+		abort(400, str(e))
+
+@post('/user/logout')
+def user_logout():
+	"Logout for user"
+	username=request.get_cookie('username')
+	sessionid=request.get_cookie('sessionid')
+	print username,sessionid,"dude"
+	if not username or not sessionid:
+		response.status=400
+		return
+	try:
+		det=user.User.logout(username,sessionid) #tuple of username and session id
+		print det
+		if det:
+			print "heree"
+			response.set_cookie("username","",max_age=60*60*24,path="/") #1 day persistent login
+			response.set_cookie("sessionid","",max_age=60*60*24,path="/")
+		else:
+			response.status=400
 	except Exception as e:
 		print e
 		abort(400, str(e))
