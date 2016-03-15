@@ -18,19 +18,16 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
       <style>
-      html,body,h6
-      {
-        font-family: sans-serif;
-      }
-          p,h3{font-family: 'Open Sans', sans-serif;color:white;font-weight: 100}
-          .grid{background-color: #2196F3;}
-       .grid-item , .grid-item > h3{ width: 210px;background-color: #2196F3;color:white }
-.grid-item--width2 { width: 540px; }
-          .card{background-color:#2196F3;padding:0px}
-              
+      html{font-family: 'Open Sans', sans-serif;color:white;font-weight: 100}
+      .card{border-radius: 0px;background-color: #2196F3;padding:0px;}
+      .card-content {padding-left:10px;color: white;}
+      .card-content > h4,p {color:white;font-weight: 100}
+          .hoverable:hover {
+  transition: box-shadow .25s;
+  box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); }
       </style>
   </head>
-  <body style="background-color:#f5f5f5">
+  <body>
 
     <nav class="navbar navbar-default">
   <div class="container">
@@ -73,29 +70,184 @@
   </div><!-- /.container-fluid -->
 </nav>
       
-      <div class="container">
-          <div class="row">
-            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-5 card">
-                <img class="img-responsive" src="images/t3.jpg">
-                <div style="padding-left:10px;padding-right:10px;">
-                    <h3>Children Begging on Traffic Signal</h3>
-                    <p>ea ita eiusmod reprehenderit domesticarum deserunt proident appellat 
-                    concursionibus consequat tamen sed</p>
-                 </div>
+<div class="container">
+    <div class="row grid">
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 grid-items">
+            <div class="card well" style="background-color:#673AB7">
+            <img src="images/t3.jpg" class="img-responsive" style="text-align:center">
+            <div class="card-content">
+                <br>
+                <div style="padding-right:10px">
+                    <p style="float:left;position:relative;top:-5px">
+                        <img height="35px" class="img-circle" src="http://www.radfaces.com/images/avatars/cameron-frye.jpg"> 
+                         <a href="#" style="color:white">John Doe</a>
+                    </p>
+                    <p style="float:right">15th March 2016</p>
+                </div>
+                <br><br>
+                <h4>Street Children Begging on the Streets of Mumbai</h4>
+                <p style="padding-right:2px">reprehenderit quibusdam graviterque incurreret cupidatat officia quis quid 
+                    quorum domesticarum et quorum <a style="cursor:pointer;color:white" href="#">(Read More)</a></p>
+                
             </div>
-              <div class="col-xs-6 col-sm-2 col-md-2 col-lg-2 card">
-                              <img class="img-responsive" src="images/t2.jpg">
-                <div style="padding-left:10px;padding-right:10px;">
-                    <h3>Children Begging on Traffic Signal</h3>
-                    <p>ea ita eiusmod reprehenderit domesticarum deserunt proident appellat 
-                    concursionibus</p>
-                 </div>
-              </div>
-          </div>
-      </div>
-
+                </div>
+        </div>
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 grid-items">
+            <div class="card well" style="background-color:#F44336">
+            <img src="images/t2.jpg" class="img-responsive" style="text-align:center">
+            <div class="card-content">
+                <br>
+                <div style="padding-right:10px">
+                    <p style="float:left;position:relative;top:-5px">
+                        <img height="35px" class="img-circle" src="http://www.radfaces.com/images/avatars/alan-frog.jpg"> 
+                         Alan Frog
+                    </p>
+                    <p style="float:right">15th March 2016</p>
+                </div>
+                <br><br>
+                <h4>Shelterless Children</h4>
+                <p style="padding-right:2px">reprehenderit quibusdam graviterque incurreret cupidatat officia quis quid 
+                    quorum domesticarum et quorum <a style="cursor:pointer;color:white">(Read More)</a></p>
+                
+            </div>
+                </div>
+        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 grid-items">
+            <div class="card well" style="background-color:#03A9F4">
+            <img src="images/t4.jpg" class="img-responsive" style="text-align:center">
+            <div class="card-content">
+                <br>
+                <div style="padding-right:10px">
+                    <p style="float:left;position:relative;top:-5px">
+                        <img height="35px" class="img-circle" src="http://www.radfaces.com/images/avatars/danny-pennington.jpg"> 
+                        Danny
+                    </p>
+                    <p style="float:right">15th March 2016</p>
+                </div>
+                <br><br>
+                <h4>Street Children Begging on the Streets of Mumbai</h4>
+                <p style="padding-right:2px">reprehenderit quibusdam graviterque incurreret cupidatat officia quis quid 
+                    quorum domesticarum et quorum <a style="cursor:pointer;color:white">(Read More)</a></p>
+                
+            </div>
+                </div>
+        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 grid-items">
+            <div class="card well" style="background-color:#00BCD4">
+            <img src="images/t4.jpg" class="img-responsive" style="text-align:center">
+            <div class="card-content">
+                <br>
+                <div style="padding-right:10px">
+                    <p style="float:left;position:relative;top:-5px">
+                        <img height="35px" class="img-circle" src="http://www.radfaces.com/images/avatars/alan-frog.jpg"> 
+                         Alan Frog
+                    </p>
+                    <p style="float:right">15th March 2016</p>
+                </div>
+                <br><br>
+                <h4>Street Children Begging on the Streets of Mumbai</h4>
+                <p style="padding-right:2px">reprehenderit quibusdam graviterque incurreret cupidatat officia quis quid 
+                    quorum domesticarum et quorum <a style="cursor:pointer;color:white">(Read More)</a></p>
+                
+            </div>
+                </div>
+        </div>
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 grid-items">
+            <div class="card well">
+            <img src="images/t3.jpg" class="img-responsive" style="text-align:center">
+            <div class="card-content">
+                <br>
+                <div style="padding-right:10px">
+                    <p style="float:left;position:relative;top:-5px">
+                        <img height="35px" class="img-circle" src="http://www.radfaces.com/images/avatars/danny-pennington.jpg"> 
+                         Danny
+                    </p>
+                    <p style="float:right">15th March 2016</p>
+                </div>
+                <br><br>
+                <h4>Street Children Begging on the Streets of Mumbai</h4>
+                <p style="padding-right:2px">reprehenderit quibusdam graviterque incurreret cupidatat officia quis quid 
+                    quorum domesticarum et quorum <a style="cursor:pointer;color:white">(Read More)</a></p>
+                
+            </div>
+                </div>
+        </div>
+        
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 grid-items">
+            <div class="card well">
+            <img src="images/t4.jpg" class="img-responsive" style="text-align:center">
+            <div class="card-content">
+                <br>
+                <div style="padding-right:10px">
+                    <p style="float:left;position:relative;top:-5px">
+                        <img height="35px" class="img-circle" src="http://www.radfaces.com/images/avatars/danny-pennington.jpg"> 
+                        Danny
+                    </p>
+                    <p style="float:right">15th March 2016</p>
+                </div>
+                <br><br>
+                <h4>Street Children Begging on the Streets of Mumbai</h4>
+                <p style="padding-right:2px">reprehenderit quibusdam graviterque incurreret cupidatat officia quis quid 
+                    quorum domesticarum et quorum <a style="cursor:pointer;color:white">(Read More)</a></p>
+                
+            </div>
+                </div>
+        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 grid-items">
+            <div class="card well">
+            <img src="images/t4.jpg" class="img-responsive" style="text-align:center">
+            <div class="card-content">
+                <br>
+                <div style="padding-right:10px">
+                    <p style="float:left;position:relative;top:-5px">
+                        <img height="35px" class="img-circle" src="http://www.radfaces.com/images/avatars/alan-frog.jpg"> 
+                         Alan Frog
+                    </p>
+                    <p style="float:right">15th March 2016</p>
+                </div>
+                <br><br>
+                <h4>Street Children Begging on the Streets of Mumbai</h4>
+                <p style="padding-right:2px">reprehenderit quibusdam graviterque incurreret cupidatat officia quis quid 
+                    quorum domesticarum et quorum <a style="cursor:pointer;color:white">(Read More)</a></p>
+                
+            </div>
+                </div>
+        </div>
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 grid-items">
+            <div class="card well">
+            <img src="images/t3.jpg" class="img-responsive" style="text-align:center">
+            <div class="card-content">
+                <br>
+                <div style="padding-right:10px">
+                    <p style="float:left;position:relative;top:-5px">
+                        <img height="35px" class="img-circle" src="http://www.radfaces.com/images/avatars/danny-pennington.jpg"> 
+                         Danny
+                    </p>
+                    <p style="float:right">15th March 2016</p>
+                </div>
+                <br><br>
+                <h4>Street Children Begging on the Streets of Mumbai</h4>
+                <p style="padding-right:2px">reprehenderit quibusdam graviterque incurreret cupidatat officia quis quid 
+                    quorum domesticarum et quorum <a style="cursor:pointer;color:white">(Read More)</a></p>
+                
+            </div>
+                </div>
+        </div>
+    </div>
+ </div>
+      
+      
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="js/bootstrap.js"></script>
+      <script src="https://npmcdn.com/masonry-layout@4.0/dist/masonry.pkgd.min.js"></script>
+      <script type="text/javascript">
+      $('.grid').masonry({
+  // options
+  itemSelector: '.grid-items',
+  columnWidth: 10,
+          percentPosition: true
+});
+      </script>
   </body>
 </html>
