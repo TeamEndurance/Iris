@@ -13,6 +13,7 @@ $.ajax({
 		  	$("#user_name1").text(js["name"]);
 		  	$("#user_email").text(js["email"]);
 		  	$("#user_profile_icon").attr("src","/user/profile_pic/"+js["profile_pic"]);
+		  	$("#user_profile_icon_small").attr("src","/user/profile_pic/"+js["profile_pic"]);
 		  		//if we get 200 Response
 		  		$.toast({
 				    heading: 'Success',
