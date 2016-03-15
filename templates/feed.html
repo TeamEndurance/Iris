@@ -20,7 +20,12 @@
       html,body,h6
       {
         font-family: sans-serif;
-      }</style>
+      }
+          .grid{background-color: #2196F3;}
+       .grid-item , .grid-item > h3{ width: 210px;background-color: #2196F3;color:white }
+.grid-item--width2 { width: 540px; }
+              
+      </style>
   </head>
   <body style="background-color:#f5f5f5">
 
@@ -68,13 +73,55 @@
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
-      <div class="container-fluid">
-          <p>Grid</p>
-      </div>
+     <!-- <div class="container-fluid">
+          <div class="grid" style="margin-left:-16px;margin-right:-16px;">
+            <div class="grid-item grid-item--width2">
+                <img src="images/t3.jpg" class="img-responsive">
+                <h3>Lorem Ipsum</h3>
+                <p>Lorem ipsnum </p>
+              </div>
+            <div class="grid-item">
+                <img src="images/t1.jpg" class="img-responsive">
+                <h3>Lorem Ipsum</h3>
+                <p>Lorem ipsnum </p>
+              </div>
+              
+              
+                <div class="grid-item">
+                <img src="images/t2.jpg" class="img-responsive">
+                <h3>Lorem Ipsum</h3>
+                <p>Lorem ipsnum </p>
+              </div>
+              <div class="grid-item">
+                <img src="images/t2.jpg" class="img-responsive">
+                <h3>Lorem Ipsum</h3>
+                <p>Lorem ipsnum </p>
+              </div>
+              <div class="grid-item">
+                <img src="images/t2.jpg" class="img-responsive">
+                <h3>Lorem Ipsum</h3>
+                <p>Lorem ipsnum </p>
+              </div>
+              <div class="grid-item">
+                <img src="images/t2.jpg" class="img-responsive">
+                <h3>Lorem Ipsum</h3>
+                <p>Lorem ipsnum </p>
+              </div>
+
+          </div>
+      </div> -->
 
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="js/bootstrap.js"></script>
+   <!--   <script src="https://npmcdn.com/masonry-layout@4.0/dist/masonry.pkgd.js"></script>
+      <script>
+$('.grid').masonry({
+  // options
+  itemSelector: '.grid-item',
+  columnWidth: 210
+});
+      </script> -->
   </body>
 </html>
