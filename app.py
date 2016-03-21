@@ -22,6 +22,7 @@ def about_us():
 	return template('static/about.html',name=request.environ.get('REMOTE_ADDR'))
 
 
+
 @route('/')
 def home():
 	username=request.get_cookie('username')
@@ -173,8 +174,7 @@ def get_user_profile_pic(idd):
 	username=request.get_cookie('username')
 	sessionid=request.get_cookie('sessionid')
 	if not username or not sessionid:
-		response.status=400
-		return
+		return static_file("default.jpg", root='static/img')
 	if user.User.authUser({"username":username,"sessionid":sessionid}):
 		try:
 			u=user.User(username,sessionid)
@@ -182,10 +182,10 @@ def get_user_profile_pic(idd):
 			if det:
 				return det
 			else:
-				response.status=400
+				return static_file("default.jpg", root='static/img')
 		except Exception as e:
 			print e
-			abort(400, str(e))
+			return static_file("default.jpg", root='static/img')
 	else:
 		response.set_cookie("sessionid", "",max_age=60*60*24,path="/")
 		response.set_cookie("username", "",max_age=60*60*24,path="/")
@@ -199,18 +199,17 @@ def get_user_profile_pic(idd):
 	username=request.get_cookie('username')
 	sessionid=request.get_cookie('sessionid')
 	if not username or not sessionid:
-		response.status=400
-		return
+		return static_file("default.jpg", root='static/img')
 	if user.User.authUser({"username":username,"sessionid":sessionid}):
 		try:
 			det=user.User.getUserPicture(idd)
 			if det:
 				return det
 			else:
-				response.status=400
+				return static_file("default.jpg", root='static/img')
 		except Exception as e:
 			print e
-			abort(400, str(e))
+			return static_file("default.jpg", root='static/img')
 	else:
 		response.set_cookie("sessionid", "",max_age=60*60*24,path="/")
 		response.set_cookie("username", "",max_age=60*60*24,path="/")
