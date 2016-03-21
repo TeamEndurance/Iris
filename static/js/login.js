@@ -191,6 +191,7 @@ $(document).on("focusout","#user-email,#org-email",function(){
 				    icon: 'success'
 				});
 				$("form").trigger('reset');
+				Dropzone.forElement("#user_img_upload").removeAllFiles();
 
 		  },
 		  error: function(){
@@ -288,6 +289,7 @@ $(document).on("click","#org-submit",function(){
 				    icon: 'success'
 				});
 				$('form').trigger('reset');
+				Dropzone.forElement("#org_img_upload").removeAllFiles();
 
 		  },
 		  error: function(){

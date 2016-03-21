@@ -205,6 +205,8 @@ $("#post_submit").on("click",function(){
 				    showHideTransition: 'fade',
 				    icon: 'success'
 				});
+				$("form").trigger('reset');
+				Dropzone.forElement("#post_img_upload").removeAllFiles();
 
 		  },
 		  error: function(e){
