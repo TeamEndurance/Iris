@@ -1,13 +1,26 @@
 $(document).ready(function(){
-$("#loc_search").geocomplete();
-$("#post_location").geocomplete();
+var post_lat="";
+var post_lang="";
+$("#loc_search").geocomplete({
+	 details: ".geo-details",
+	 detailsAttribute: "data-geo"
+});
+$("#post_location").geocomplete({
+	 details: ".geo-details",
+	 detailsAttribute: "data-geo"
+
+}).bind("geocode:result", function (event, result) {						
+			post_lat=result.geometry.location.lat();
+			post_lang=result.geometry.location.lng();
+
+});
 $('form').trigger('reset');
  	$(".grid").html("");
 $("#loc_search_form").on("submit",searchPosts);//on submit
 $("#loc_search_form").on("change",searchPosts);// on autocomplete click
 
-
 function searchPosts(){
+	
 	var query=$("#loc_search").val().trim();
 	if(query===""){
 		return;
@@ -26,6 +39,13 @@ $.ajax({
 				});
 		  	var js=JSON.parse(response);
 		  	var main=$();
+		  	if(js.length===0){
+		  		//no results found
+        		var no_results=$("<div class='col-xs-12 text-center'><div id='noresults'><h4><strong>No results</strong></h4></div></div></div>");
+        		$(".grid").html(no_results);
+ 				$('#cover').fadeOut(1000);
+		  		return;
+		  	}
 		  	for (var i = 0; i < js.length; i++) {
 		  		var obj=js[i];
 		  		var html=$("<div class='col-xs-12 col-sm-6 col-md-4 col-lg-4 grid-items'><div class='card well' style='background-color:#673AB7'><img src='' class='img-responsive post_img' style='text-align:center'><div class='card-content'><br><div style='padding-right:10px'><p style='float:left;position:relative;top:-5px'><img class='img-circle' height='35px'><a href='#' style='color:white' class='author'></a></p><p class='report_time' style='float:right'></p></div><br><br><h4 class='title'></h4><h6 class='location' style='color:white'></h6><p style='padding-right:2px' class='story'></p><a style='cursor:pointer;color:white' href='#'>(Read More)</a></div></div></div>")
@@ -119,6 +139,14 @@ function fetch_feed(){
 				    showHideTransition: 'fade',
 				    icon: 'success'
 				});
+
+		  	if(js.length===0){
+		  		//no results found
+        		var no_results=$("<div class='col-xs-12 text-center'><div id='noresults'><h4><strong>Oops there are no feeds present now !</strong></h4></div></div></div>");
+        		$(".grid").html(no_results);
+ 				$('#cover').fadeOut(1000);
+		  		return;
+		  	}
 		  	for (var i = 0; i < js.length; i++) {
 		  		var obj=js[i];
 		  		var html=$("<div class='col-xs-12 col-sm-6 col-md-4 col-lg-4 grid-items'><div class='card well' style='background-color:#673AB7'><img src='' class='img-responsive post_img' style='text-align:center'><div class='card-content'><br><div style='padding-right:10px'><p style='float:left;position:relative;top:-5px'><img class='img-circle' height='35px'><a href='#' style='color:white' class='author'></a></p><p class='report_time' style='float:right'></p></div><br><br><h4 class='title'></h4><h6 class='location' style='color:white'></h6><p style='padding-right:2px' class='story'></p><a style='cursor:pointer;color:white' href='#'>(Read More)</a></div></div></div>")
@@ -254,7 +282,7 @@ $("#post_submit").on("click",function(){
 		$.ajax({
 		  type: "POST",
 		  url: "/user/post",
-		  data: {"title":post_title,"content":post_content,"picture":POST_FILE_IMG,"anonyoumous":anonyoumous,"location":post_location},
+		  data: {"title":post_title,"content":post_content,"picture":POST_FILE_IMG,"anonyoumous":anonyoumous,"location":post_location,"lat":post_lat,"long":post_lang},
 		  success: function(){
 		  		//if we get 200 Response
 		  		$.toast({

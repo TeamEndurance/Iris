@@ -1,5 +1,6 @@
 $(document).ready(function(){
-	$('form').trigger('reset');
+
+$('form').trigger('reset');
 $("#loc_search").geocomplete();
 
 $("#loc_search_form").on("submit",function(){
@@ -7,6 +8,52 @@ $("#loc_search_form").on("submit",function(){
   return false;
 });
 
+function fetchMarkers(){
+
+	$.ajax({
+		  type: "POST",
+		  url: "/posts/markers",
+		  success: function(response){
+		  		//if we get 200 Response
+		  		$.toast({
+				    heading: 'Success',
+				    text: 'Map generated',
+				    showHideTransition: 'fade',
+				    icon: 'success'
+				});
+		  		var js=JSON.parse(response);
+		  		var map;
+			        map = new google.maps.Map(document.getElementById('maps_iframe'), {
+			          center: {lat: 22, lng: 78},
+			          zoom: 5
+			        });
+		  		for (var i = 0; i < js.length; i++) {
+		  			
+		  			var myLatLng = js[i];
+		  			var marker = new google.maps.Marker({
+				    position: {"lat":parseFloat(myLatLng["lat"]),"lng":parseFloat(myLatLng["long"])},
+				    map: map
+				  });
+		  		};
+		  		console.log(map)
+		  		map.initialize();
+				 
+
+				  
+
+		  },
+		  error: function(){
+		  		//if we get 404 response
+		  		$.toast({
+				    heading: 'Error',
+				    text: 'Fetching map data failed',
+				    showHideTransition: 'fade',
+				    icon: 'error'
+				});
+		  }
+		});
+}
+fetchMarkers()
 $("#username").attr('autocomplete','off').val("");
 $("#password").attr('autocomplete','off').val("");
 var USER_FILE_IMG="default.jpg";

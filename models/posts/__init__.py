@@ -29,3 +29,13 @@ class Posts(object):
 		except Exception as e:
 			print e
 			raise Exception("Unable to fetch")
+
+	@staticmethod
+	def getMarkers():
+		"""Fetches markers for map"""
+		try:
+			a=list(Posts.db["posts"].find({},{"lat":1,"long":1,"_id":0}))
+			return json.dumps(a)
+		except Exception as e:
+			print e
+			raise Exception("Unable to fetch")

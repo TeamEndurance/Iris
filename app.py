@@ -346,6 +346,20 @@ def search_posts():
 		redirect("/")
 
 
+@post("/posts/markers")
+def getMarkers():
+	"Get markers for map"
+	try:
+		det=posts.Posts.getMarkers()
+		if det:
+			return det
+		else:
+			response.status=400
+	except Exception as e:
+		print e
+		abort(400, str(e))
+
+
 # Static Routes
 @get('/static/<filename:re:.*\.js>')
 def javascripts(filename):

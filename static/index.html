@@ -27,12 +27,22 @@
     <link href="/static/bootstrap.min.css" rel="stylesheet">
     <link href="/static/dropzone.min.css" rel="stylesheet">
     <style>
+    html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+
     .dropzone {
     border: 2px dashed #0087F7;
     border-radius: 5px;
     background: white;
     padding: 54px 54px;
 }
+#maps_iframe {
+        height: 80%;
+      }
+
     </style>
      <link href="/static/jquery.toast.min.css" rel="stylesheet">
 
@@ -88,7 +98,6 @@
 </nav>
 
      <div class="container" id="maps_iframe" style="text-align:center;">
-<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14934181.131426198!2d70.93837272079263!3d23.95901449565519!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cfd5b347eb62d%3A0x52c2b7494e204dce!2sNew+Delhi%2C+Delhi+110001!5e0!3m2!1sen!2sin!4v1457788436913" width="100%" height="600" frameborder="0" style="border:0" allowfullscreen></iframe>
       </div>
 
     <div class="modal fade" id="signup" tabindex="-1" role="dialog">
@@ -226,7 +235,9 @@
     <script src="/static/dropzone.min.js"></script>
      <script src="/static/login.js"></script>
      <script src="/static/jquery.toast.min.js"></script>
-     <script src="//maps.googleapis.com/maps/api/js?libraries=places"></script>
+     
+
+     <script src="//maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyDjydYjdk_0ZpCeu-x0uJ7Wd_flnSXDpOc"></script>
       <script src="/static/jquery.geocomplete.min.js"></script>
   </body>
 </html>

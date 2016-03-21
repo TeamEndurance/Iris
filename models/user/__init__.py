@@ -208,20 +208,22 @@ class User(object):
 
 	def createPost(self,details):
 		"""Creates a new post"""
-		title,content,picture,anonyoumous,location,report_time=("","","","","","")
+		title,content,picture,anonyoumous,location,report_time,lat,longg=("","","","","","","","")
 		try:
 			title=details["title"][0]
 			content=details["content"][0]
 			picture=details["picture"][0]
 			anonyoumous=details['anonyoumous'][0]
 			location=details["location"][0]
+			lat=details["lat"][0]
+			longg=details["long"][0]
 			report_time=int(time.time())
 			post_id=str(self._username)+str(report_time)+str(int(random.random()*1000))
 		except KeyError as e:
 			#raise if few parameters are recieved
 			raise Exception("Not all parameters are available")
 		try:
-			status=User.db["posts"].insert_one({"_id":post_id,"author":self._username,"title":title,"content":content,"picture":picture,"anonyoumous":anonyoumous,'location':location,"report_time":report_time})
+			status=User.db["posts"].insert_one({"_id":post_id,"author":self._username,"title":title,"content":content,"picture":picture,"anonyoumous":anonyoumous,'location':location,"report_time":report_time,"lat":lat,"long":longg})
 			print status
 			if status:
 				return True
