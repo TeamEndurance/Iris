@@ -102,15 +102,16 @@
 </div><!-- /.modal -->
 
 <div class="modal fade" tabindex="-1" role="dialog" id="new_user_signup">
- <form id="user_registeration">
+ 
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title">New User Sign up</h4>
       </div>
-      <div class="modal-body">
       <form id="user_img_upload" action="/upload" class="dropzone"></form>
+      <div class="modal-body">
+    <form id="user_registeration">  
  <div class="input-group">
   <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></span>
   <input type="text" id="user-name" class="form-control" placeholder="name" aria-describedby="basic-addon1">
@@ -140,6 +141,7 @@
   <input type="password" id="user-password2" class="form-control" placeholder="Confirm Password" aria-describedby="basic-addon4">
   
 </div>
+</form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -147,20 +149,20 @@
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
-  </form>
+  
 </div><!-- /.modal -->
 
             <div class="modal fade" tabindex="-1" role="dialog" id="new_organization_signup">
-            <form id="org_registeration">
+            
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title">Organization Sign up</h4>
       </div>
-               
+   <form id="org_img_upload" action="/upload" class="dropzone"></form>             
 <div class="modal-body">
- <form id="org_img_upload" action="/upload" class="dropzone"></form>
+<form id="org_registeration">
  <div class="input-group">
   <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></span>
   <input type="text" id="org-name" class="form-control" placeholder="Organization Name" aria-describedby="basic-addon1">
@@ -189,6 +191,7 @@
   <input type="password" id="org-password2" class="form-control" placeholder="Confirm Password" aria-describedby="basic-addon4">
   
 </div>
+ </form>   
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -196,7 +199,7 @@
       </div>
       </div>
     </div>
-        </form>        
+            
   </div>
 
 
