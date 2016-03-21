@@ -6,6 +6,7 @@
 """
 import config,pymongo
 import gridfs,time,random
+import json
 #enforce unique index on users index
 db=config.getMongo()
 db["users"].create_index([('email', pymongo.ASCENDING)],unique=True)
@@ -244,7 +245,7 @@ class User(object):
 			for d in a:
 					if d["anonyoumous"] is True or d["anonyoumous"] == "true":
 						d["author"]="anonyoumous"
-			return a
+			return json.dumps(a)
 		except Exception as e:
 			print e
 			raise Exception("Unable to fetch")

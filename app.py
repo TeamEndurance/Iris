@@ -276,7 +276,7 @@ def get_created_post():
 			u=user.User(username,sessionid)
 			det=u.getCreatedPost(entity)
 			if det:
-				return json.dumps(det)
+				return det
 			else:
 				response.status=400
 		except Exception as e:
@@ -362,6 +362,10 @@ def images(filename):
 @get('/static/<filename:re:.*\.(eot|ttf|woff|svg)>')
 def fonts(filename):
 	return static_file(filename, root='static/fonts')
+
+@get('/static/<filename:re:.*\.(json)>')
+def json_static(filename):
+	return static_file(filename, root='static/json')
 
 @get('/fonts/<filename:re:.*\.(eot|ttf|woff|svg)>')
 def fonts(filename):
