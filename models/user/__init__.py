@@ -9,6 +9,7 @@ import gridfs,time,random
 #enforce unique index on users index
 db=config.getMongo()
 db["users"].create_index([('email', pymongo.ASCENDING)],unique=True)
+db["posts"].create_index([('location', "text")], default_language='english')
 
 class User(object):
 	db=config.getMongo()
@@ -191,9 +192,7 @@ class User(object):
 	@staticmethod
 	def getUserPicture(username):
 		try:
-			print username
 			hashh=User.db["users"].find_one({"_id":username})
-			print hashh
 			if hashh is None:
 				raise Exception("Unable to get user details")
 			k=User.fs.find_one({"md5":hashh["profile_pic"]})
@@ -241,7 +240,10 @@ class User(object):
 		except KeyError:
 			pass
 		try:
-			a=list(User.db["posts"].find({}).sort([("report_time",1)]).skip(start).limit(length))
+			a=list(User.db["posts"].find({}).sort([("report_time",-1)]).skip(start).limit(length))
+			for d in a:
+					if d["anonyoumous"] is True or d["anonyoumous"] == "true":
+						d["author"]="anonyoumous"
 			return a
 		except Exception as e:
 			print e

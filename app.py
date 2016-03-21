@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 from bottle import route, error, post, get, run, static_file, abort, redirect, response, request, template
 from models import user
+from models import posts
 from os import environ as env
 config=user.config
 import pymongo,os
@@ -202,6 +203,8 @@ def get_user_profile_pic(idd):
 		return static_file("default.jpg", root='static/img')
 	if user.User.authUser({"username":username,"sessionid":sessionid}):
 		try:
+			if idd == "anonyoumous":
+				return static_file("anonyoumous.jpg", root='static/img')
 			det=user.User.getUserPicture(idd)
 			if det:
 				return det
@@ -298,6 +301,38 @@ def get_user_details():
 		try:
 			u=user.User(username,sessionid)
 			det=u.getDetails()
+			if det:
+				return det
+			else:
+				response.status=400
+		except Exception as e:
+			print e
+			abort(400, str(e))
+	else:
+		response.set_cookie("sessionid", "",max_age=60*60*24,path="/")
+		response.set_cookie("username", "",max_age=60*60*24,path="/")
+		redirect("/")
+
+@post("/posts/search")
+def search_posts():
+	"Search post by location"
+	username=request.get_cookie('username')
+	sessionid=request.get_cookie('sessionid')
+	entity=None
+
+	data = request.body.readline()
+	print data
+	if not data:
+		abort(400, 'No data received')
+	else:
+		entity = dict(urlparse.parse_qs(data))
+
+	if not username or not sessionid:
+		response.status=400
+		return
+	if user.User.authUser({"username":username,"sessionid":sessionid}):
+		try:
+			det=posts.Posts.searchPosts(entity)
 			if det:
 				return det
 			else:

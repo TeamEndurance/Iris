@@ -3,10 +3,61 @@ $("#loc_search").geocomplete();
 $("#post_location").geocomplete();
 $('form').trigger('reset');
  	$(".grid").html("");
-$("#loc_search_form").on("submit",function(){
- 
-  return false;
-});
+$("#loc_search_form").on("submit",searchPosts);//on submit
+$("#loc_search_form").on("change",searchPosts);// on autocomplete click
+
+
+function searchPosts(){
+	var query=$("#loc_search").val().trim();
+	if(query===""){
+		return;
+	}
+	$('#cover').fadeIn(1000);
+$.ajax({
+		  type: "POST",
+		  url: "/posts/search",
+		  data:{"i":0,"len":20,"location":query},
+		  success: function(response){	
+		  	$.toast({
+				    heading: 'Success',
+				    text: 'Search success',
+				    showHideTransition: 'fade',
+				    icon: 'success'
+				});
+		  	var js=JSON.parse(response);
+		  	var main=$();
+		  	for (var i = 0; i < js.length; i++) {
+		  		var obj=js[i];
+		  		var html=$("<div class='col-xs-12 col-sm-6 col-md-4 col-lg-4 grid-items'><div class='card well' style='background-color:#673AB7'><img src='' class='img-responsive post_img' style='text-align:center'><div class='card-content'><br><div style='padding-right:10px'><p style='float:left;position:relative;top:-5px'><img class='img-circle' height='35px'><a href='#' style='color:white' class='author'></a></p><p class='report_time' style='float:right'></p></div><br><br><h4 class='title'></h4><h6 class='location' style='color:white'></h6><p style='padding-right:2px' class='story'></p><a style='cursor:pointer;color:white' href='#'>(Read More)</a></div></div></div>")
+		  		html.find(".img-circle").attr("src","/user/pic/"+obj["author"]);
+		  		html.find(".post_img").attr("src","/user/profile_pic/"+obj["picture"]);
+		  		html.find(".story").text(obj["content"]);
+		  		html.find(".title").text(obj["title"]);
+		  		html.find(".author").text(obj["author"]);
+		  		html.find(".location").text(obj["location"]);
+		  		html.find(".report_time").text(timeConverter(obj["report_time"]));
+		  		
+		  		main=main.add(html);
+		  	};
+ 				$(".grid").html(main);
+ 				$('#cover').fadeOut(1000);
+		  	
+		  },
+		  error: function(){
+		  		//if we get 404 response
+		  		$.toast({
+				    heading: 'Error',
+				    text: 'Search failure',
+				    showHideTransition: 'fade',
+				    icon: 'error'
+				});
+				$('#cover').fadeOut(1000);
+		  }
+		});
+
+return false;
+}
+
 
 function timeConverter(UNIX_timestamp){
   var a = new Date(UNIX_timestamp * 1000);
@@ -53,8 +104,9 @@ $.ajax({
 				});
 		  }
 		});
+function fetch_feed(){
 
-$.ajax({
+	$.ajax({
 		  type: "POST",
 		  url: "/user/get_feed",
 		  data:{"i":0,"len":20},
@@ -81,7 +133,7 @@ $.ajax({
 		  		main=main.add(html);
 		  	};
  				$(".grid").html(main);
-		  	
+		  		 $('#cover').fadeOut(1000);
 
 		  	
 		  },
@@ -95,6 +147,12 @@ $.ajax({
 				});
 		  }
 		});
+}
+fetch_feed();//init
+
+
+
+
 $(document).on("click","#logout",function(){
 		$.ajax({
 		  type: "POST",
@@ -192,7 +250,7 @@ $("#post_submit").on("click",function(){
 		{
 		  anonyoumous=true;
 		}
-		console.log({"title":post_title,"content":post_content,"picture":POST_FILE_IMG,"anonyoumous":anonyoumous,"location":post_location});
+		
 		$.ajax({
 		  type: "POST",
 		  url: "/user/post",
@@ -207,6 +265,7 @@ $("#post_submit").on("click",function(){
 				});
 				$("form").trigger('reset');
 				Dropzone.forElement("#post_img_upload").removeAllFiles();
+				fetch_feed();
 
 		  },
 		  error: function(e){

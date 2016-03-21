@@ -88,10 +88,17 @@
           .hoverable:hover {
   transition: box-shadow .25s;
   box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); }
+  #cover {
+    background: url("static/ajax-loader.gif") no-repeat scroll center center #FFF;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    z-index: 5000;
+}
       </style>
   </head>
   <body>
-
+<div id="cover"></div>
     <nav class="navbar navbar-default">
   <div class="container">
     <!-- Brand and toggle get grouped for better mobile display -->
@@ -192,7 +199,7 @@
         <h4 class="modal-title">Create a post</h4>
       </div>
       <div class="modal-body">
-     
+     <form>
  <div class="input-group">
   <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></span>
   <input type="text" id="post_title" class="form-control" placeholder="Title" aria-describedby="basic-addon1">
@@ -210,8 +217,9 @@
 
 <div class="input-group">
   <div class="checkbox">
-  <label><input type="checkbox" name="post_anonyoumous" value="true">Post as Anonyoumous</label>
+  <label><input type="checkbox" name="post_anonyoumous" id="post_anonyoumous" value="true">Post as Anonyoumous</label>
 </div>
+</form>
    <form id="post_img_upload" action="/upload" class="dropzone"></form>
 </div><br>
          
