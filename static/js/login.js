@@ -189,6 +189,7 @@ $(document).on("focusout","#user-email,#org-email",function(){
 				    showHideTransition: 'fade',
 				    icon: 'success'
 				});
+				$("form").trigger('reset');
 
 		  },
 		  error: function(){
@@ -285,6 +286,7 @@ $(document).on("click","#org-submit",function(){
 				    showHideTransition: 'fade',
 				    icon: 'success'
 				});
+				$('form').trigger('reset');
 
 		  },
 		  error: function(){
@@ -311,7 +313,6 @@ Dropzone.options.userImgUpload= {
   },
   dictDefaultMessage:"Choose a profile pic",
   accept: function(file, done) {
-  	alert(file.name)
     if(file.name.indexOf(".png")>0 || file.name.indexOf(".jpg")>0 || file.name.indexOf(".jpeg")>0){
     	done();
     }else{
@@ -335,7 +336,6 @@ Dropzone.options.orgImgUpload= {
   uploadMultiple:false,
   dictDefaultMessage:"Choose a profile pic",
   accept: function(file, done) {
-  	alert(file.name)
     if(file.name.indexOf(".png")>0 || file.name.indexOf(".jpg")>0 || file.name.indexOf(".jpeg")>0){
     	done();
     }else{
