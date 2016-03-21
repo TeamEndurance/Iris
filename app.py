@@ -4,9 +4,9 @@ config=user.config
 import pymongo,os
 import json,urlparse
 import gridfs,random,time
-import hashlib
+import hashlib,sys
 db=config.getMongo()
-
+port=int(sys.argv[1])
 
 @route('/index.html')
 def index():
