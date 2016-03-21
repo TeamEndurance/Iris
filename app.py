@@ -294,4 +294,4 @@ def fonts(filename):
 def fonts(filename):
 	return static_file(filename, root='static/fonts')
 
-run(server="wsgiref",host='localhost', port=5555, debug=True)
+run(host='localhost', port=80, debug=True)
