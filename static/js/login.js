@@ -68,6 +68,7 @@ $(document).on("focusout","#user-user_name,#org-user_name",function(){
 				    showHideTransition: 'fade',
 				    icon: 'error'
 				});
+				$(this).val("");
 		  }
 		});
 		return false;//stop form submission
@@ -101,6 +102,7 @@ $(document).on("focusout","#user-email,#org-email",function(){
 				    showHideTransition: 'fade',
 				    icon: 'error'
 				});
+				$(this).val("");
 		  }
 		});
 		return false;//stop form submission

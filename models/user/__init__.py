@@ -204,11 +204,19 @@ class User(object):
 			#raise if few parameters are recieved
 			raise Exception("Not all parameters are available")
 		try:
-			status=User.db["posts"].insert({"_id":post_id,"title":title,"content":content,"picture":picture,"anonyoumous":anonyoumous,'location':location,"report_time":report_time})
+			status=User.db["posts"].insert({"_id":post_id,"author":self._username,"title":title,"content":content,"picture":picture,"anonyoumous":anonyoumous,'location':location,"report_time":report_time})
 			if status:
 				return True
 			else:
 				return False
 		except pymongo.errors.DuplicateKeyError:
 			#if user exists raise an exception
-			raise Exception("Post already exists")		
+			raise Exception("Post already exists")
+
+	def getCreatedPost(self,start=0,length=50):
+		"""Fetches the user created posts from db """
+		try:
+			a=User.db["posts"].find({"author":self._username}).sort({"report_time":1}).skip(start).limit(length).toArray()
+			return a
+		except Exception as e:
+			raise Exception("Unable to fetch")

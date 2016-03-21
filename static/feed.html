@@ -11,12 +11,21 @@
     <link href="/static/bootstrap.css" rel="stylesheet">
       <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
    <link href="/static/jquery.toast.min.css" rel="stylesheet">
+   <link href="/static/dropzone.min.css" rel="stylesheet">
       <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+     <style>
+    .dropzone {
+    border: 2px dashed #0087F7;
+    border-radius: 5px;
+    background: white;
+    padding: 54px 54px;
+}
+    </style>
       <style>
       .navbar-login
 {
@@ -90,7 +99,7 @@
       <ul class="nav navbar-nav">
         <li>
             
-            <a class="btn" href="report.html">
+            <a data-toggle="modal" data-target="#user_post" data-dismiss="modal" class="btn">
                  <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add a Report
             </a>
                 
@@ -319,7 +328,45 @@
         </div>
     </div>
  </div>
-      
+      <div class="modal fade" tabindex="-1" role="dialog" id="user_post">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Create a post</h4>
+      </div>
+      <div class="modal-body">
+     
+ <div class="input-group">
+  <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></span>
+  <input type="text" id="post_title" class="form-control" placeholder="Title" aria-describedby="basic-addon1">
+</div><br>
+        <div class="input-group">
+  <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></span>
+  <input type="text" id="post_location" class="form-control" placeholder="Location of incident" aria-describedby="basic-addon1">
+</div><br>
+
+
+<div class="input-group col-lg-12 col-md-12">
+    <textarea id="post_content" class="form-control" placeholder="Description of incident"></textarea>
+  
+</div><br>
+
+<div class="input-group">
+  <div class="checkbox">
+  <label><input type="checkbox" name="post_anonyoumous" value="true">Post as Anonyoumous</label>
+</div>
+   <form id="post_img_upload" action="/upload" class="dropzone"></form>
+</div><br>
+         
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" id="post_submit" class="btn btn-primary">Post</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
       
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
@@ -334,6 +381,7 @@
 });
       </script>
      <script src="/static/feed.js"></script>
+      <script src="/static/dropzone.min.js"></script>
      <script src="/static/jquery.toast.min.js"></script>
      <script src="http://maps.googleapis.com/maps/api/js?libraries=places"></script>
       <script src="/static/jquery.geocomplete.min.js"></script>
