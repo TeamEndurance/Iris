@@ -1,5 +1,7 @@
+#!/usr/bin/env python
 from bottle import route, error, post, get, run, static_file, abort, redirect, response, request, template
 from models import user
+from os import environ as env
 config=user.config
 import pymongo,os
 import json,urlparse
