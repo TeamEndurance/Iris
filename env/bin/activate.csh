@@ -7,7 +7,11 @@ alias deactivate 'test $?_OLD_VIRTUAL_PATH != 0 && setenv PATH "$_OLD_VIRTUAL_PA
 # Unset irrelevant variables.
 deactivate nondestructive
 
+<<<<<<< HEAD
 setenv VIRTUAL_ENV "/home/tilak/Iris/env"
+=======
+setenv VIRTUAL_ENV "/home/devaraj/iris/Iris/env"
+>>>>>>> fe78b6a1d44e13e192ee18b9a76be07cff10532e
 
 set _OLD_VIRTUAL_PATH="$PATH"
 setenv PATH "$VIRTUAL_ENV/bin:$PATH"
@@ -17,6 +21,7 @@ setenv PATH "$VIRTUAL_ENV/bin:$PATH"
 if ("" != "") then
     set env_name = ""
 else
+<<<<<<< HEAD
     if (`basename "$VIRTUAL_ENV"` == "__") then
         # special case for Aspen magic directories
         # see http://www.zetadev.com/software/aspen/
@@ -24,6 +29,9 @@ else
     else
         set env_name = `basename "$VIRTUAL_ENV"`
     endif
+=======
+    set env_name = `basename "$VIRTUAL_ENV"`
+>>>>>>> fe78b6a1d44e13e192ee18b9a76be07cff10532e
 endif
 
 # Could be in a non-interactive environment,
