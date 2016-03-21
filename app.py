@@ -5,9 +5,6 @@ import pymongo,os
 import json,urlparse
 import gridfs,random,time
 import hashlib
-import sys
-port=sys.argv[1]
-print port
 db=config.getMongo()
 
 
@@ -298,4 +295,4 @@ def fonts(filename):
 def fonts(filename):
 	return static_file(filename, root='static/fonts')
 
-run(host='localhost', port=port, debug=True)
+run(server="wsgiref",host='localhost', port=port, debug=True)
