@@ -2,7 +2,6 @@ $(document).ready(function(){
 $("#loc_search").geocomplete();
 $("#post_location").geocomplete();
 $('form').trigger('reset');
-$(".grid-items").html("");
 $("#loc_search_form").on("submit",function(){
  
   return false;
