@@ -294,4 +294,4 @@ def fonts(filename):
 def fonts(filename):
 	return static_file(filename, root='static/fonts')
 
-run(host='localhost', port=8080, debug=True)
+run(host='0.0.0.0', port=sys.argv[1], debug=True)
