@@ -6,7 +6,6 @@ import json,urlparse
 import gridfs,random,time
 import hashlib,sys
 db=config.getMongo()
-port=int(sys.argv[1])
 
 @route('/index.html')
 def index():
@@ -295,4 +294,4 @@ def fonts(filename):
 def fonts(filename):
 	return static_file(filename, root='static/fonts')
 
-run(server="wsgiref",host='localhost', port=port, debug=True)
+run(server="wsgiref",host='localhost', port=5555, debug=True)
