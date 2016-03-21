@@ -1,10 +1,25 @@
 $(document).ready(function(){
 $("#loc_search").geocomplete();
 $("#post_location").geocomplete();
+$('form').trigger('reset');
 $("#loc_search_form").on("submit",function(){
  
   return false;
 });
+
+function timeConverter(UNIX_timestamp){
+  var a = new Date(UNIX_timestamp * 1000);
+  var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  var year = a.getFullYear();
+  var month = months[a.getMonth()];
+  var date = a.getDate();
+  var hour = a.getHours();
+  var min = a.getMinutes();
+  var sec = a.getSeconds();
+  var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec ;
+  return time;
+}
+
 var POST_FILE_IMG="default.jpg";
 $.ajax({
 		  type: "POST",
@@ -32,6 +47,48 @@ $.ajax({
 		  		$.toast({
 				    heading: 'Error',
 				    text: 'Profile fetch failure',
+				    showHideTransition: 'fade',
+				    icon: 'error'
+				});
+		  }
+		});
+
+$.ajax({
+		  type: "POST",
+		  url: "/user/get_feed",
+		  data:{"i":0,"len":20},
+		  success: function(response){
+		  	var js=JSON.parse(response);
+		  	var main=$();
+		  	$.toast({
+				    heading: 'Success',
+				    text: 'Feeds fetched',
+				    showHideTransition: 'fade',
+				    icon: 'success'
+				});
+		  	for (var i = 0; i < js.length; i++) {
+		  		var obj=js[i];
+		  		var html=$("<div class='card well' style='background-color:#673AB7'><img src='' class='img-responsive post_img' style='text-align:center'><div class='card-content'><br><div style='padding-right:10px'><p style='float:left;position:relative;top:-5px'><img class='img-circle' height='35px'><a href='#' style='color:white' class='author'></a></p><p class='report_time' style='float:right'></p></div><br><br><h4 class='title'></h4><p style='padding-right:2px' class='story'><a style='cursor:pointer;color:white' href='#'>(Read More)</a></p></div></div>")
+		  		html.find(".img-circle").attr("src","/user/pic/"+obj["author"]);
+		  		html.find(".post_img").attr("src","/user/profile_pic/"+obj["picture"]);
+		  		html.find(".story").text(obj["content"]);
+		  		html.find(".title").text(obj["title"]);
+		  		html.find(".author").text(obj["author"]);
+		  		html.find(".report_time").text(timeConverter(obj["report_time"]));
+		  		
+		  		main=main.add(html);
+		  	};
+		  	$(".grid-items").html("").html(main);
+
+		  	
+
+		  	
+		  },
+		  error: function(){
+		  		//if we get 404 response
+		  		$.toast({
+				    heading: 'Error',
+				    text: 'Feeds fetch failure',
 				    showHideTransition: 'fade',
 				    icon: 'error'
 				});
@@ -97,6 +154,7 @@ $("#post_submit").on("click",function(){
 		//for post 
 		var post_title=$("#post_title").val();
 		var post_content=$("#post_content").val();
+		var post_location=$("#post_location").val();
 		if(post_title===""){
 			$.toast({
 				    heading: 'Error',
@@ -133,6 +191,7 @@ $("#post_submit").on("click",function(){
 		{
 		  anonyoumous=true;
 		}
+		console.log({"title":post_title,"content":post_content,"picture":POST_FILE_IMG,"anonyoumous":anonyoumous,"location":post_location});
 		$.ajax({
 		  type: "POST",
 		  url: "/user/post",
@@ -147,7 +206,7 @@ $("#post_submit").on("click",function(){
 				});
 
 		  },
-		  error: function(){
+		  error: function(e){
 		  		//if we get 404 response
 		  		$.toast({
 				    heading: 'Error',

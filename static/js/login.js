@@ -1,4 +1,5 @@
 $(document).ready(function(){
+	$('form').trigger('reset');
 $("#loc_search").geocomplete();
 
 $("#loc_search_form").on("submit",function(){

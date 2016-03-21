@@ -182,6 +182,32 @@ def get_user_profile_pic(idd):
 		response.set_cookie("username", "",max_age=60*60*24,path="/")
 		redirect("/")
 
+
+@get("/user/pic/<idd:path>")
+def get_user_profile_pic(idd):
+	"Fetch user profile_pic"
+	print idd
+	username=request.get_cookie('username')
+	sessionid=request.get_cookie('sessionid')
+	if not username or not sessionid:
+		response.status=400
+		return
+	if user.User.authUser({"username":username,"sessionid":sessionid}):
+		try:
+			det=user.User.getUserPicture(idd)
+			if det:
+				return det
+			else:
+				response.status=400
+		except Exception as e:
+			print e
+			abort(400, str(e))
+	else:
+		response.set_cookie("sessionid", "",max_age=60*60*24,path="/")
+		response.set_cookie("username", "",max_age=60*60*24,path="/")
+		redirect("/")
+
+
 @post("/user/post")
 def create_post():
 	"Creates a post"
@@ -203,8 +229,9 @@ def create_post():
 		try:
 			u=user.User(username,sessionid)
 			det=u.createPost(entity)
+			print det
 			if det:
-				return det
+				response.status=200
 			else:
 				response.status=400
 		except Exception as e:
@@ -215,7 +242,7 @@ def create_post():
 		response.set_cookie("username", "",max_age=60*60*24,path="/")
 		redirect("/")
 
-@get("/user/post")
+@post("/user/get_feed")
 def get_created_post():
 	"Fetches created post by the user"
 	username=request.get_cookie('username')
@@ -223,6 +250,7 @@ def get_created_post():
 	entity=None
 
 	data = request.body.readline()
+	print data
 	if not data:
 		abort(400, 'No data received')
 	else:
@@ -237,7 +265,7 @@ def get_created_post():
 			u=user.User(username,sessionid)
 			det=u.getCreatedPost(entity)
 			if det:
-				return det
+				return json.dumps(det)
 			else:
 				response.status=400
 		except Exception as e:

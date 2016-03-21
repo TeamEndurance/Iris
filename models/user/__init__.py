@@ -5,7 +5,7 @@
 	user
 """
 import config,pymongo
-import gridfs,time
+import gridfs,time,random
 #enforce unique index on users index
 db=config.getMongo()
 db["users"].create_index([('email', pymongo.ASCENDING)],unique=True)
@@ -188,6 +188,23 @@ class User(object):
 		except Exception as e:
 			print e
 			raise Exception("Unable to get user details")
+	@staticmethod
+	def getUserPicture(username):
+		try:
+			print username
+			hashh=User.db["users"].find_one({"_id":username})
+			print hashh
+			if hashh is None:
+				raise Exception("Unable to get user details")
+			k=User.fs.find_one({"md5":hashh["profile_pic"]})
+			if k:
+				return k.read()
+			else:
+				raise Exception("Unable to get user details")
+		except Exception as e:
+			print e
+			raise Exception("Unable to get user details")
+
 
 	def createPost(self,details):
 		"""Creates a new post"""
@@ -204,7 +221,8 @@ class User(object):
 			#raise if few parameters are recieved
 			raise Exception("Not all parameters are available")
 		try:
-			status=User.db["posts"].insert({"_id":post_id,"author":self._username,"title":title,"content":content,"picture":picture,"anonyoumous":anonyoumous,'location':location,"report_time":report_time})
+			status=User.db["posts"].insert_one({"_id":post_id,"author":self._username,"title":title,"content":content,"picture":picture,"anonyoumous":anonyoumous,'location':location,"report_time":report_time})
+			print status
 			if status:
 				return True
 			else:
@@ -213,10 +231,18 @@ class User(object):
 			#if user exists raise an exception
 			raise Exception("Post already exists")
 
-	def getCreatedPost(self,start=0,length=50):
+	def getCreatedPost(self,entity):
 		"""Fetches the user created posts from db """
+		start=0
+		length=20
 		try:
-			a=User.db["posts"].find({"author":self._username}).sort({"report_time":1}).skip(start).limit(length).toArray()
+			start=int(entity["i"][0])
+			length=int(entity["len"][0])
+		except KeyError:
+			pass
+		try:
+			a=list(User.db["posts"].find({}).sort([("report_time",1)]).skip(start).limit(length))
 			return a
 		except Exception as e:
+			print e
 			raise Exception("Unable to fetch")
