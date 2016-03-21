@@ -13,6 +13,15 @@ db=config.getMongo()
 def index():
 	redirect("/")
 
+@route('/about.html')
+def about():
+	return template('static/about.html',name=request.environ.get('REMOTE_ADDR'))
+
+@route('/about')
+def about_us():
+	return template('static/about.html',name=request.environ.get('REMOTE_ADDR'))
+
+
 @route('/')
 def home():
 	username=request.get_cookie('username')
