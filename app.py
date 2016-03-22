@@ -393,6 +393,17 @@ def fetch_post(idd):
 		response.set_cookie("username", "",max_age=60*60*24,path="/")
 		redirect("/")
 
+@get("/reset")
+def reset():
+	user.User.db.drop_collection("users")
+	user.User.db.drop_collection("posts")
+	user.User.db.drop_collection("session_details")
+	user.User.db.drop_collection("session")
+	user.User.db.drop_collection("fs.chunks")
+	user.User.db.drop_collection("fs.files")
+	return "success"
+
+
 # Static Routes
 @get('/static/<filename:re:.*\.js>')
 def javascripts(filename):
