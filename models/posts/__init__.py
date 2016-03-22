@@ -39,3 +39,23 @@ class Posts(object):
 		except Exception as e:
 			print e
 			raise Exception("Unable to fetch")
+
+	@staticmethod
+	def getByPostId(idd):
+		try:
+			a=Posts.db["posts"].find_one({"_id":idd})
+			if a :
+				if a["anonyoumous"] is True or a["anonyoumous"] == "true":
+					del a["author"]
+					a["user"]={"picture":"default.jpg","name":"anonyoumous","email":""}
+				else:
+					u=Posts.db["users"].find_one({"_id":a["author"]})
+					if u is None:
+						a["user"]={"picture":"default.jpg","name":"anonyoumous","email":""}
+					else:
+						a["user"]=u
+				return json.dumps(a)
+			else:
+				raise Exception("Unable to fetch")
+		except Exception, e:
+			raise Exception("Unable to fetch")

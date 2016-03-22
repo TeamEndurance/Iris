@@ -152,6 +152,8 @@ class User(object):
 			raise Exception("Not all parameters are available")
 		ps=User._encryptPassword(password)
 		u=User.db["users"].find_one({"_id":username})
+		if u is None:
+			raise Exception("unknown user")
 		if ps == u["password"] and username == u["_id"]:
 			try:
 				sess=User._createSessionId(username)

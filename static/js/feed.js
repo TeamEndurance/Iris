@@ -1,9 +1,14 @@
 $(document).ready(function(){
 var post_lat="";
 var post_lang="";
+$(".show_article").hide()
 $("#loc_search").geocomplete({
 	 details: ".geo-details",
 	 detailsAttribute: "data-geo"
+}).bind("geocode:result", function (event, result) {						
+			
+			searchPosts(result["name"]);
+
 });
 $("#post_location").geocomplete({
 	 details: ".geo-details",
@@ -19,12 +24,10 @@ $('form').trigger('reset');
 $("#loc_search_form").on("submit",searchPosts);//on submit
 $("#loc_search_form").on("change",searchPosts);// on autocomplete click
 
-function searchPosts(){
+function searchPosts(query){
 	
-	var query=$("#loc_search").val().trim();
-	if(query===""){
-		return;
-	}
+	
+	$(".show_article").hide();
 	$('#cover').fadeIn(1000);
 $.ajax({
 		  type: "POST",
@@ -43,12 +46,13 @@ $.ajax({
 		  		//no results found
         		var no_results=$("<div class='col-xs-12 text-center'><div id='noresults'><h4><strong>No results</strong></h4></div></div></div>");
         		$(".grid").html(no_results);
+        		$(".show_feed").fadeIn(1000);
  				$('#cover').fadeOut(1000);
 		  		return;
 		  	}
 		  	for (var i = 0; i < js.length; i++) {
 		  		var obj=js[i];
-		  		var html=$("<div class='col-xs-12 col-sm-6 col-md-4 col-lg-4 grid-items'><div class='card well' style='background-color:#673AB7'><img src='' class='img-responsive post_img' style='text-align:center'><div class='card-content'><br><div style='padding-right:10px'><p style='float:left;position:relative;top:-5px'><img class='img-circle' height='35px'><a href='#' style='color:white' class='author'></a></p><p class='report_time' style='float:right'></p></div><br><br><h4 class='title'></h4><h6 class='location' style='color:white'></h6><p style='padding-right:2px' class='story'></p><a style='cursor:pointer;color:white' href='#'>(Read More)</a></div></div></div>")
+		  		var html=$("<div class='col-xs-12 col-sm-6 col-md-4 col-lg-4 grid-items'><div class='card well' style='background-color:#673AB7'><img src='' class='img-responsive post_img' style='text-align:center'><div class='card-content'><br><div style='padding-right:10px'><p style='float:left;position:relative;top:-5px'><img class='img-circle' height='35px'><a href='#' style='color:white' class='author'></a></p><p class='report_time' style='float:right'></p></div><br><br><h4 class='title'></h4><h6 class='location' style='color:white'></h6><p style='padding-right:2px' class='story'></p><a class='read_more' style='cursor:pointer;color:white' href='#'>(Read More)</a></div></div></div>")
 		  		html.find(".img-circle").attr("src","/user/pic/"+obj["author"]);
 		  		html.find(".post_img").attr("src","/user/profile_pic/"+obj["picture"]);
 		  		html.find(".story").text(obj["content"]);
@@ -56,10 +60,11 @@ $.ajax({
 		  		html.find(".author").text(obj["author"]);
 		  		html.find(".location").text(obj["location"]);
 		  		html.find(".report_time").text(timeConverter(obj["report_time"]));
-		  		
+		  		html.find(".read_more").attr("href","/article/"+obj["_id"])
 		  		main=main.add(html);
 		  	};
  				$(".grid").html(main);
+ 				$(".show_feed").fadeIn(1000);
  				$('#cover').fadeOut(1000);
 		  	
 		  },
@@ -71,13 +76,59 @@ $.ajax({
 				    showHideTransition: 'fade',
 				    icon: 'error'
 				});
-				$('#cover').fadeOut(1000);
+				var no_results=$("<div class='col-xs-12 text-center'><div id='noresults'><h4><strong>No results</strong></h4></div></div></div>");
+        		$(".grid").html(no_results);
+        		$(".show_feed").fadeIn(1000);
+ 				$('#cover').fadeOut(1000);
 		  }
 		});
 
 return false;
 }
+function fetchArticle(idd){
+	
+$.ajax({
+		  type: "POST",
+		  url: "/posts/id/"+idd,
+		  success: function(response){	
+		  	$.toast({
+				    heading: 'Success',
+				    text: 'Article Fetched',
+				    showHideTransition: 'fade',
+				    icon: 'success'
+				});
+		  	var js=JSON.parse(response);
+		  	$("#article_title").text(js["title"]);
+		  	$("#article_img").attr("src","/user/profile_pic/"+js["picture"]);
+		  	$("#article_author_img").attr("src","/user/profile_pic/"+js["user"]["profile_pic"]);
+		  	$("#article_content").text(js["content"]);
+		  	$("#article_author_name").text(js["user"]["name"]);
+		  	$("#article_author_email").text(js["user"]["email"]);
+		  	$("#article_date").text("Posted on "+timeConverter(parseInt(js["report_time"])));
+		  	$(".show_feed").hide()
+		  	$(".show_article").fadeIn(1000)
+ 				$('#cover').fadeOut(1000);
+		  	
+		  },
+		  error: function(){
+		  		//if we get 404 response
+		  		$.toast({
+				    heading: 'Error',
+				    text: 'Article fetch failure',
+				    showHideTransition: 'fade',
+				    icon: 'error'
+				});
+				$('#cover').fadeOut(1000);
+				window.location="/"
+		  }
+		});
 
+}
+$(document).on("click",".read_more",function(){
+	var idd=$(this).attr("href").split("/").pop();
+	fetchArticle(idd);
+	return false;
+})
 
 function timeConverter(UNIX_timestamp){
   var a = new Date(UNIX_timestamp * 1000);
@@ -149,7 +200,7 @@ function fetch_feed(){
 		  	}
 		  	for (var i = 0; i < js.length; i++) {
 		  		var obj=js[i];
-		  		var html=$("<div class='col-xs-12 col-sm-6 col-md-4 col-lg-4 grid-items'><div class='card well' style='background-color:#673AB7'><img src='' class='img-responsive post_img' style='text-align:center'><div class='card-content'><br><div style='padding-right:10px'><p style='float:left;position:relative;top:-5px'><img class='img-circle' height='35px'><a href='#' style='color:white' class='author'></a></p><p class='report_time' style='float:right'></p></div><br><br><h4 class='title'></h4><h6 class='location' style='color:white'></h6><p style='padding-right:2px' class='story'></p><a style='cursor:pointer;color:white' href='#'>(Read More)</a></div></div></div>")
+		  		var html=$("<div class='col-xs-12 col-sm-6 col-md-4 col-lg-4 grid-items'><div class='card well' style='background-color:#673AB7'><img src='' class='img-responsive post_img' style='text-align:center'><div class='card-content'><br><div style='padding-right:10px'><p style='float:left;position:relative;top:-5px'><img class='img-circle' height='35px'><a href='#' style='color:white' class='author'></a></p><p class='report_time' style='float:right'></p></div><br><br><h4 class='title'></h4><h6 class='location' style='color:white'></h6><p style='padding-right:2px' class='story'></p><a class='read_more' style='cursor:pointer;color:white' href=''>(Read More)</a></div></div></div>")
 		  		html.find(".img-circle").attr("src","/user/pic/"+obj["author"]);
 		  		html.find(".post_img").attr("src","/user/profile_pic/"+obj["picture"]);
 		  		html.find(".story").text(obj["content"]);
@@ -157,6 +208,7 @@ function fetch_feed(){
 		  		html.find(".author").text(obj["author"]);
 		  		html.find(".location").text(obj["location"]);
 		  		html.find(".report_time").text(timeConverter(obj["report_time"]));
+		  		html.find(".read_more").attr("href","/article/"+obj["_id"])
 		  		
 		  		main=main.add(html);
 		  	};
@@ -212,12 +264,26 @@ $("#user_show_profile").on("click",function(){
 	$("#profile_section").attr("style","").attr("style","display:block;");
 	return false;
 });
+$(document).on("click",".post-submit-close",function(){
 
+	$("form").trigger('reset');
+	Dropzone.forElement("#post_img_upload").removeAllFiles();
+	POST_FILE_IMG="default.jpg";
+});
 Dropzone.options.postImgUpload= {
   paramName: "file", // The name that will be used to transfer the file
   maxFilesize: 15, // MB
   maxFiles:1,
   uploadMultiple:false,
+
+   init: function () {
+        this.on("addedfile", function (file) {
+            $("#post-submit").css("display","none")
+        });
+        this.on("complete", function (file) {
+            $("#post-submit").css("display","inline")
+        });
+    },
   success:function(file,response){
 	POST_FILE_IMG=response["file_id"];
   },

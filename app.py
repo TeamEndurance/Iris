@@ -363,6 +363,36 @@ def getMarkers():
 		abort(400, str(e))
 
 
+@get("/article/<idd:path>")
+def show_article(idd):
+	"Displays article page"
+	return template('static/article.html',name=request.environ.get('REMOTE_ADDR'))
+
+
+@post("/posts/id/<idd:path>")
+def fetch_post(idd):
+	"FEtches post by id"
+	username=request.get_cookie('username')
+	sessionid=request.get_cookie('sessionid')
+
+	if not username or not sessionid:
+		response.status=400
+		return
+	if user.User.authUser({"username":username,"sessionid":sessionid}):
+		try:
+			det=posts.Posts.getByPostId(idd)
+			if det:
+				return det
+			else:
+				response.status=400
+		except Exception as e:
+			print e
+			abort(400, str(e))
+	else:
+		response.set_cookie("sessionid", "",max_age=60*60*24,path="/")
+		response.set_cookie("username", "",max_age=60*60*24,path="/")
+		redirect("/")
+
 # Static Routes
 @get('/static/<filename:re:.*\.js>')
 def javascripts(filename):
@@ -376,7 +406,7 @@ def stylesheets(filename):
 def images(filename):
     return static_file(filename, root='static/img')
 
-@get('/static/<filename:re:.*\.(eot|ttf|woff|svg)>')
+@get('/static/<filename:re:.*\.(eot|ttf|woff|woff2|svg)>')
 def fonts(filename):
 	return static_file(filename, root='static/fonts')
 
@@ -384,7 +414,7 @@ def fonts(filename):
 def json_static(filename):
 	return static_file(filename, root='static/json')
 
-@get('/fonts/<filename:re:.*\.(eot|ttf|woff|svg)>')
+@get('/fonts/<filename:re:.*\.(eot|ttf|woff|woff2|svg)>')
 def fonts(filename):
 	return static_file(filename, root='static/fonts')
 
