@@ -82,6 +82,9 @@ def user_login():
 			response.status=200
 			return {"session":det[1]}
 		else:
+			#if login was unsuccessfull clear the cookie
+			response.set_cookie("sessionid", "",max_age=60*60*24,path="/")
+			response.set_cookie("username", "",max_age=60*60*24,path="/")
 			response.status=400
 			return {"status":False}
 	except Exception as e:

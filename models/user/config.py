@@ -1,5 +1,5 @@
 config={
-	"mongo_uri":"mongodb://tilak:TILAK05051995@ds039145.mlab.com:39145/iris"
+	"mongo_uri":"mongodb://127.0.0.1:27017/iris"
 }
 
 def getMongo():

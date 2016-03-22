@@ -7,6 +7,8 @@
 import config,pymongo
 import gridfs,time,random
 import json
+import hashlib
+import time
 #enforce unique index on users index
 db=config.getMongo()
 db["users"].create_index([('email', pymongo.ASCENDING)],unique=True)
@@ -106,7 +108,19 @@ class User(object):
 				raise Exception("Not all parameters are available")
 			u=User.db["session"].find_one({"_id":username})
 			if sessionid in u["sessions"]:
-				return True
+				res=User.db["session_details"].find_one({"_id":sessionid})
+				if res is not None:
+					t=res["login_time"]
+					now=int(time.time())
+					if (now-t) > (60*60*24*1000):
+						#session expired
+						User.db["session"].update_one({"_id":username},{"$pull":{"sessions":sessionid}},True)
+						User.db["session_details"].remove({"_id":sessionid})
+						return False
+					else:
+						return True
+				else:
+					return False
 			else:
 				#If invalid credentials raise an Exception
 				return False
@@ -116,7 +130,6 @@ class User(object):
 	@staticmethod
 	def _encryptPassword(password):
 		"""Encryting password before inserting"""
-		import hashlib
 		m = hashlib.md5()
 		m.update(password)
 		return m.hexdigest()
@@ -124,8 +137,6 @@ class User(object):
 	@staticmethod
 	def _createSessionId(username):
 		"""Generating random sessionid"""
-		import hashlib
-		import time
 		m = hashlib.md5()
 		m.update(username+str(time.time()))
 		return m.hexdigest()
@@ -145,6 +156,7 @@ class User(object):
 			try:
 				sess=User._createSessionId(username)
 				User.db["session"].update_one({"_id":username},{"$push":{"sessions":sess}},True)
+				User.db["session_details"].insert_one({"_id":sess,"login_time":int(time.time())})
 				return username,sess
 			except Exception as e:
 				print e
@@ -159,6 +171,7 @@ class User(object):
 		try:
 			sess=User._createSessionId(username)
 			User.db["session"].update_one({"_id":username},{"$pull":{"sessions":sessionid}},True)
+			User.db["session_details"].remove({"_id":sessionid})
 			return True
 		except Exception as e:
 			print e

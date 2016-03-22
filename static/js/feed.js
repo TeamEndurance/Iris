@@ -292,7 +292,9 @@ $("#post_submit").on("click",function(){
 				    icon: 'success'
 				});
 				$("form").trigger('reset');
+				$("#user_post").modal("toggle")
 				Dropzone.forElement("#post_img_upload").removeAllFiles();
+
 				fetch_feed();
 
 		  },

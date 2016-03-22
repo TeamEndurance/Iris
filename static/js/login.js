@@ -238,8 +238,9 @@ $(document).on("focusout","#user-email,#org-email",function(){
 				    icon: 'success'
 				});
 				$("form").trigger('reset');
+				$("#new_user_signup").modal("toggle");
 				Dropzone.forElement("#user_img_upload").removeAllFiles();
-
+				
 		  },
 		  error: function(){
 		  		//if we get 404 response
@@ -254,6 +255,17 @@ $(document).on("focusout","#user-email,#org-email",function(){
 		return false;//stop form submission
 	});
 
+
+$(document).on("click",".org-submit-close",function(){
+
+	$("form").trigger('reset');
+	Dropzone.forElement("#org_img_upload").removeAllFiles();
+});
+$(document).on("click",".user-submit-close",function(){
+
+	$("form").trigger('reset');
+	Dropzone.forElement("#user_img_upload").removeAllFiles();
+});
 $(document).on("click","#org-submit",function(){
 		//for regular org registeration
 		var p1=$("#org-password1").val();
@@ -336,7 +348,9 @@ $(document).on("click","#org-submit",function(){
 				    icon: 'success'
 				});
 				$('form').trigger('reset');
+				$("#new_org_signup").modal("toggle");
 				Dropzone.forElement("#org_img_upload").removeAllFiles();
+				
 
 		  },
 		  error: function(){
@@ -349,15 +363,22 @@ $(document).on("click","#org-submit",function(){
 				});
 		  }
 		});
-		return false;//stop form submission
+		
 	});
-
 
 Dropzone.options.userImgUpload= {
   paramName: "file", // The name that will be used to transfer the file
   maxFilesize: 2, // MB
   maxFiles:1,
   uploadMultiple:false,
+   init: function () {
+        this.on("addedfile", function (file) {
+            $("#user-submit").css("display","none")
+        });
+        this.on("complete", function (file) {
+            $("#user-submit").css("display","inline")
+        });
+    },
   success:function(file,response){
 	USER_FILE_IMG=response["file_id"];
   },
@@ -380,6 +401,14 @@ Dropzone.options.orgImgUpload= {
   paramName: "file", // The name that will be used to transfer the file
   maxFilesize: 2, // MB
   maxFiles:1,
+  init: function () {
+        this.on("addedfile", function (file) {
+            $("#org-submit").css("display","none")
+        });
+        this.on("complete", function (file) {
+            $("#org-submit").css("display","inline")
+        });
+    },
   success:function(file,response){
 	ORG_FILE_IMG=response["file_id"];
   },
